@@ -34,9 +34,10 @@ git clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git
 All the functions used for the variant calling and downsampling pipeline are inside the `./functions` folder.
 
 Download RNA-Seq data from GEO
-------------------------------
+==============================
 
-### Get SRX names
+Get SRX names
+-------------
 
 ``` r
 library(GEOquery)
@@ -79,7 +80,8 @@ kable(head(GSEmatrix))
 | 03H119 | GSM1203309     | SRX332629 |
 | 04H024 | GSM1203310     | SRX332630 |
 
-### Create NCBI query
+Create NCBI query
+-----------------
 
 ``` r
 search_ncbi <- paste(GSEmatrix$SRX,collapse=" OR ")
