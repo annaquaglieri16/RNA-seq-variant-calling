@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+./pending_integration
+./check_files.R
+./functions_old
+./Rpackage
+./FindingSuitableCoverageData
