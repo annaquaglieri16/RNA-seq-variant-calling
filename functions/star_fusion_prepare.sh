@@ -2,12 +2,19 @@
 
 # ## Building a custom FUsionFilter Dataset
 # # https://github.com/FusionFilter/FusionFilter/wiki/Building-a-Custom-FusionFilter-Dataset
+# Depends on the Trinity software
+# Downalod STAR-Fusion from GitHub
 
 # datasets
-gtf=$1
-genome_fasta=$2
-star_fusion_data=$3
+#gtf=$1
+#genome_fasta=$2
+#star_fusion_data=$3
+#star_fusion_source=$4
 
+star_fusion_source=/wehisan/home/allstaff/q/quaglieri.a/software/STAR-Fusion-v1.4.0
+gtf=/wehisan/home/allstaff/q/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/hg38/NCBI/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes_known_chrom.gtf
+ve-2015-08-11-09-31-31/Genes/genes.gtf
+genome_fasta=/wehisan/home/allstaff/q/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/hg38/NCBI/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa
 
 mkdir -p ${star_fusion_data}
 
@@ -15,7 +22,8 @@ cd ${star_fusion_data}
 
 # 0. Download fusion annotation
 # check if fusion annotation is present or get it from https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/
-annotation=./Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data/fusion_lib.dat.gz
+# annotation=./Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data/fusion_lib.dat.gz
+annotation=/wehisan/home/allstaff/q/quaglieri.a/software/Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v27_CTAT_lib_July192017.source_data/fusion_lib.dat.gz
 
 if [[ -r ${annotation} ]]; then 
 
@@ -24,72 +32,31 @@ if [[ -r ${annotation} ]]; then
 else
 
 
-	wget -r -np --no-host-directories https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data.tar.gz -P .
+  wget -r -np --no-host-directories https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/GRCh38_v27_CTAT_lib_Feb092018.source_data.tar.gz -P .
 
-	tar xvzf ./Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data.tar.gz 
+	#wget -r -np --no-host-directories https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data.tar.gz -P .
 
-	annotation=./Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data/fusion_lib.dat.gz
+	tar xvzf /wehisan/home/allstaff/q/quaglieri.a/software/Trinity/CTAT_RESOURCE_LIB/GRCh38_v27_CTAT_lib_Feb092018/GRCh38_v27_CTAT_lib_Feb092018.source_data.tar.gz 
+
+	annotation=/wehisan/home/allstaff/q/quaglieri.a/software/Trinity/CTAT_RESOURCE_LIB/GRCh38_v27_CTAT_lib_Feb092018/CTAT_HumanFusionLib.v0.1.0.dat.gz
 
 fi
 
-# 1. Extract cDNA sequences
-/home/users/allstaff/quaglieri.a/software/STAR-Fusion/FusionFilter/util/gtf_file_to_cDNA_seqs.pl \
- ${gtf} ${genome_fasta} > ${star_fusion_data}/cDNA_seqs.fa 
+
+## Extract all _alt features in gtf files that are not in the fasta file
 
 
-# 3. All-vs-all BLASTN search
-# make the cDNA_seqs.fa file blastable
-chmod 775 *
+# New way of preparing the files fro STAR-Fusion
+ctat_dir=/wehisan/home/allstaff/q/quaglieri.a/software/Trinity/CTAT_RESOURCE_LIB/GRCh38_v27_CTAT_lib_Feb092018/
+cd $ctat_dir
 
-makeblastdb -in ${star_fusion_data}/cDNA_seqs.fa -dbtype nucl  \
-> ${star_fusion_data}/log_makeblastdb.txt
+module load STAR/2.5.3a
+module load trinity/2.4.0
+module load samtools/1.9
 
-# perform the blastn search
-chmod 775  *
-
-## Without RepeatMasker output
-blastn -query ${star_fusion_data}/cDNA_seqs.fa \
--db ${star_fusion_data}/cDNA_seqs.fa \
--max_target_seqs 10000 -outfmt 6 \
--evalue 1e-3 -lcase_masking \
--num_threads 10 \
--word_size 11  >  ${star_fusion_data}/blast_pairs.outfmt6
-
-chmod 775 * 
-
-
-#####
-
-# Replace the transcript identifiers in the blast output with gene symbols (and gzipping output) by then running:
-~/software/STAR-Fusion/FusionFilter/util/blast_outfmt6_replace_trans_id_w_gene_symbol.pl \
-${star_fusion_data}/cDNA_seqs.fa \
-${star_fusion_data}/blast_pairs.outfmt6  | \
-gzip > ${star_fusion_data}/blast_pairs.gene_syms.outfmt6.gz 
-
-# # Prep the Custom FusionFilter Dataset
-# ## Need to update sometihng
-# module add gmap-gsnap/2016-04-04
-
-# Old version
-# cd ${star_fusion_data}
-# /home/users/allstaff/quaglieri.a/software/STAR-Fusion/FusionFilter/prep_genome_lib.pl \
-# --genome_fa ${genome_fasta} \
-# --gtf ${gtf} \
-# --blast_pairs ./blast_pairs.gene_syms.outfmt6.gz \
-# --cdna_fa ./cDNA_seqs.fa \
-# --CPU 10 
-
-# Create star-fusion with annotation 401
-cd ${star_fusion_data}
-/home/users/allstaff/quaglieri.a/software/STAR-Fusion/FusionFilter/prep_genome_lib.pl \
---genome_fa ${genome_fasta} \
---gtf ${gtf} \
---blast_pairs ./blast_pairs.gene_syms.outfmt6.gz \
---fusion_annot_lib ${annotation} \
---CPU 10 
-
-/home/users/allstaff/quaglieri.a/software/STAR-Fusion/FusionFilter/util/index_pfam_domain_info.pl  \
---pfam_domains PFAM.domtblout.dat.gz \
---genome_lib_dir ctat_genome_lib_build_dir
-
-# done
+$star_fusion_source/FusionFilter/prep_genome_lib.pl \
+                         --genome_fa $genome_fasta \
+                         --gtf $gtf \
+                         --fusion_annot_lib CTAT_HumanFusionLib.dat.gz \
+                         --annot_filter_rule AnnotFilterRule.pm \
+                         --pfam_db PFAM.domtblout.dat.gz

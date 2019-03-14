@@ -3,17 +3,24 @@ title: "From FASQC to Variant Calling for RNA-Seq"
 author: "Anna Quaglieri"
 date: "11th October 2017"
 output:
-  github_document:
+  bookdown::gitbook:
+  html_document:
     toc: yes
     toc_depth: 3
-  html_document:
+  github_document:
     toc: yes
     toc_depth: 3
 linkcolor: magenta
 urlcolor: magenta
 ---
 
-This is an example workflow from FASTQC to Variant calling using the functions in the *functions* folder.
+```{r setup, include=FALSE,echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = FALSE,message = FALSE,cache.path = "book")
+```
+
+# Setup
+
+This is an example workflow from `SRR` files to Variant calling using modular functions written in `R` and `bash`.
 
 ```{bash engine=bash,eval=FALSE}
 git clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git
@@ -21,9 +28,20 @@ git clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git
 
 All the functions used for the variant calling and downsampling pipeline are inside the `./functions` folder. 
 
-## Download RNA-Seq data from GEO
+* If you already have the `FASTQ` files and you don't need to randomly downsample your samples go to Section \@ref(align)
+* If you already have the `FASTQ` files and you want to randomly downsample your samples to a fix number of reads go to Section \@ref(downsample)
+* If you already have the `BAM` files and you want to call variants go to Section \@ref(gatk-prep)
 
-### Get SRX names 
+## Disclaimer
+
+The following workflow was built in a modular way and it is not wrapped up into a pipeline manager. I aknowledge the limitations and non-user-friendliness of some steps. However, it offers a comprehensive view of several tools and steps used for variant calling in RNA-Seq as well as general tools used in any bioinformatics pipeline.    
+
+# Download RNA-Seq data from GEO {#download}
+
+We will provide an example on how to download data from GEO using the Leucegene CBF-AML RNS-Seq data uploaded at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642. 
+The first step in dowloading data from GEO is to download the `SRA` files. For that we need to get `SRX` entries which each one corresponds to a sample in the RNA-Seq cohort.
+
+## Get SRX sample names 
 
 ```{r message=FALSE,warning=FALSE}
 library(GEOquery)
@@ -32,7 +50,7 @@ library(knitr)
 library(stringr)
 ```
 
-Below is an example using one accession number from the Leucegene data.
+Below is an example using one accession number from the [Leucegene data](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642).
 
 ```{r eval=FALSE}
 dir.create("test_data",showWarnings = FALSE,recursive = TRUE)
@@ -48,16 +66,25 @@ write.csv(reduced,file.path("test_data",paste(gse,"_",nrow(gse.mat),".csv",sep="
 series_matrix_info("GSE49642") # 43 samples
 ```
 
-```{r message=FALSE}
+
+Every row in Table \@ref(tab:SRX) contains sample names (`title`) and `GSM` accession numbers. In order to download a particular sample we need the `SRA` terms which are the names starting with: `SRX***` in the `relation.1` column. The structure of the matrix might change across different studies but you should be able to find `SRX` entries hidden somewhere in the `GSEMatrix`!
+
+```{r SRX,message=FALSE}
 matrix_file <- list.files(path = file.path("test_data"),pattern = "GSE",full.names = TRUE)
 GSEmatrix <- read_csv(matrix_file)
 
-GSEmatrix$SRX <- str_extract(string = GSEmatrix$relation.1,pattern = "SRX[0-9][0-9][0-9][0-9][0-9][0-9]")
+kable(GSEmatrix[1:5,],caption="SRX sample names.")
+```
+
+With some string processing we can extract the `SRX` entries. 
+
+```{r message=FALSE}
+GSEmatrix$SRX <- stringr::str_extract(string = GSEmatrix$relation.1,pattern = "SRX[0-9][0-9][0-9][0-9][0-9][0-9]")
 GSEmatrix$relation.1 <- NULL
 kable(head(GSEmatrix))
 ```
 
-### Create NCBI query
+## Create NCBI query
 
 ```{r}
 search_ncbi <- paste(GSEmatrix$SRX,collapse=" OR ")
@@ -71,18 +98,19 @@ Paste the search `r search_ncbi` into NCBI https://www.ncbi.nlm.nih.gov/sra and 
 prefetch --option-file SraAccList_CBF-AML_Leucegene.txt
 ```
 
-SRA files were converted to `fastq` files with `fastq-dump --split-files`. The command `fastqc` was used to check the quality of the fastq files. The folder `test_data` contains small FASTQ files that can be used as example.
+SRA files can then be converted to `fastq` files with `fastq-dump --split-files`. 
 
-# Downsampling FASTQ files
+# Downsampling FASTQ files {#downsample}
 
-The [seqtk](https://github.com/lh3/seqtk) tool was used to downsample an exact number of reads from paired end (PE) FASTQ files. The following is just an example command.
+The [seqtk](https://github.com/lh3/seqtk) tool can be used to downsample an exact number of reads from paired end (PE) FASTQ files. The following is an example run
 
 ```{bash eval=FALSE}
-seqtk sample -s100 test_data/SRR1608610_1.fastq.gz 10000 > test_data/sub_SRR1608610_1.fq
-seqtk sample -s100 test_data/SRR1608610_2.fastq.gz 10000 > test_data/sub_SRR1608610_2.fq
+path-to-seqtk-folder/seqtk sample -s100 test_data/SRR1608610_1.fastq.gz 10000 > test_data/sub_SRR1608610_1.fq
+path-to-seqtk-folder/seqtk sample -s100 test_data/SRR1608610_2.fastq.gz 10000 > test_data/sub_SRR1608610_2.fq
 ```
 
-# Define files and programs needed for the pipeline 
+
+# Define files and programs needed for the pipeline {#input-pipe}
 
 * The reference genome **hg19** is used for this analysis.
 * Below are all the programs and versions used
@@ -115,42 +143,47 @@ gtf=path_to_hg19_gtf_directory/genes.gtf
 # Functions directories
 workdir=./functions
 
-# folder where fastq files are stored
-fastqdir=./test_data
-
 # STAR folders for one-pass, two-pass and merged output
 star_1pass=./aligned_star1
 star_2pass=./aligned_star2
 star_merged=./star_merged_runs # Every sample comes in different SRR runs which will have to be merged in one SRX sample.
 ```
 
-# FASTQC
+# FASTQC {#fastqc} and adapters trimming
 
-This is just one example to run `fastqc` check on several FASTQ files.
+`fastqc` [@Andrews2010-fk] can be used for QC of the FASTQ files.
 
-```{bash eval = FALSE}
-mkdir -p ${fastqdir}/fastqc
-find ${fastqdir} -name "*.fastq.gz" > ./test_data/fastq_files.txt
-cat ./test_data/fastq_files.txt | parallel -j 2 "fastqc {} --outdir ${fastqdir}/fastqc"
+```{bash eval=FALSE}
+mkdir -p ./test_data/fastqc
+
+fastqc ./test_data/SRR1608610_1.fastq.gz --outdir ./test_data/fastqc/
 ```
 
-I strongly suggest to have a look at [MultiQC](http://multiqc.info/) which allows you to combine together the results of multiple samples into one compact document. To check which the programs whose output is supported by `MultiQC` and how to install it check their help page.
+This is just one example to run `fastqc` on several FASTQ files using `parallel` [@Tange_undated-th].
 
 ```{bash eval = FALSE}
-multiqc ${fastqdir}/fastqc --interactive -n "FASTQC_summary" -o ${fastqdir}
+find ./test_data/fastqc -name "*.fastq.gz" > ./test_data/fastq_files.txt
+cat ./test_data/fastq_files.txt | parallel -j 2 "fastqc {} --outdir ./test_data/fastqc"
+```
+
+I strongly suggest to have a look at [MultiQC](http://multiqc.info/) [@Ewels2016-rc] which allows you to combine together the results of multiple samples into one compact document. You can check the programs whose output is supported by `MultiQC`.
+
+```{bash eval = FALSE}
+multiqc ./test_data/fastqc --interactive -n "FASTQC_summary" -o ./test_data/
 ```
 
 The `FASTQC` reports offer a variety of measures and one can decide about discarding some samples or doing some adapter trimming if necessary. [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) and [Trim Galore!](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) can be used for this purpose.
 
-I suggest looking at one of my previous analysis around [adapters with STAR and Subread](https://github.com/annaquaglieri16/RNA-Seq-and-adapters--STAR-vs-Subjunc) since they can cause serious troubles with `STAR` default settings.
+I suggest looking at one of my previous analysis around [adapters with STAR and Subread](https://github.com/annaquaglieri16/RNA-Seq-and-adapters--STAR-vs-Subjunc) since adapters can cause serious troubles with `STAR` default settings.
 
-# Alignement
 
-Once the *fastq* files are ready to be processed we can align them with *STAR*. [Subread/Rsubread](http://subread.sourceforge.net/) is another widely used RNA-Seq aligner. The reason why I initially choose *STAR* over *Subread* was simply due to the fact that *STAR* can generate specific output for chimeric reads that can be directly used with [STAR-Fusion](https://github.com/STAR-Fusion/STAR-Fusion/wiki) to analyse gene fusions as well as because it is part of the [GATK Best Practices to call variants in RNA-Seq](https://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail). 
+# Alignement {#align}
 
-## Create `STAR` index
+Once the *fastq* files are ready to be processed we can align them with *STAR*. [Subread/Rsubread](http://subread.sourceforge.net/) is another widely used RNA-Seq aligner. The reason why I initially choose *STAR* over *Subread* was simply due to the fact that *STAR* can generate specific output for chimeric reads that can be directly used with [STAR-Fusion](https://github.com/STAR-Fusion/STAR-Fusion/wiki) to analyse gene fusions. Also, *STAR* is suggested in the the [GATK Best Practices to call variants in RNA-Seq](https://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail). 
 
-`STAR` requires to build an index for the reference genome that will be used in the analysis. We are also going to detect fusions
+## Create `STAR` index 
+
+STAR requires to build an index for the reference genome that will be used in the analignment and fusion calling step.
 
 ```{bash eval=FALSE}
 # TO BE DELETED
@@ -172,6 +205,7 @@ Below is a wrapper for `STAR` call to build an index.
 outpud_dir=./
 ${workdir}/build_STAR_index.sh ${genome_fasta} ${gtf} $outpud_dir "hg19" 99
 ```
+
 
 ## STAR-1pass
 
@@ -285,6 +319,8 @@ It is suggested to have a look at the summary of the alignment through *MultiQC*
 multiqc star_1pass --interactive -n "STAR_1passQC" -o ./
 ```
 
+
+
 ## STAR-2pass
 
 The second pass alignment is exactly the same as the first one with only a few differences:
@@ -395,7 +431,17 @@ This time *MultiQC* will give us a summary output also of the fragment distribut
 multiqc ./star_2pass --interactive -n "STAR_2passQC" -o ./
 ```
 
-# GATK pre-processing
+# Merge bamfiles
+
+In some cases the sequenced reads from one sample can be sequenced across different lanes and the aligned bamfiles need to be merged. `sambamba merge` can be used for this. I created a wrapper function for it even though it assumes that the files from the same sample have a common *SampleName*. The function will merge together all bamfiles containing *SampleName*.
+
+
+```{bash eval=FALSE}
+${workdir}/merge_runs.sh SampleName ./star_2pass
+```
+
+
+# GATK pre-processing {#gatk-prep}
 
 The pipeline contains function to call variants with `MuTect2`, `Samtools + VarScan2`, `VarDict` and `Freebayes`.
 In order to run `MuTect2` some GATK pre-processing are needed. The function `function/gatk_process_pipe.R` will perform the following steps:
@@ -404,6 +450,12 @@ In order to run `MuTect2` some GATK pre-processing are needed. The function `fun
 * *Base recalibration* see [GATK documentation](https://gatkforums.broadinstitute.org/gatk/discussion/44/base-quality-score-recalibration-bqsr)
 
 Below is an example call which wraps the steps above and check if files have already been created.
+
+
+```{r echo=FALSE}
+
+```
+
 
 ```{bash eval=FALSE}
 Rscript ./functions/gatk_process_pipe.R \
@@ -430,7 +482,7 @@ gatk -T SplitNCigarReads -R path_hg19_reference/genome.fa \
 
 * Base recalibration using known sites downloaded from the [GATK Bundle](https://github.com/snewhouse/ngs_nextflow/wiki/GATK-Bundle)
 
-```{bash}
+```{bash eval=FALSE}
 module load gatk/3.7.0
 
 gatk -T BaseRecalibrator -R path_hg19_reference/genome.fa \
@@ -464,23 +516,65 @@ gatk -T PrintReads -R path_hg19_reference/genome.fa \
 --log_to_file ./star_2pass/BaseQRecal/SRR1608907/SRR1608907_Log_recalibrated_bases
 ```
 
-# Variant calling
 
-#### Call with MuTect2
+# Variant calling {#call-variants}
+\label{sec:call-variants}
 
-The target genes were created using the gene symbols of the mutations listed in **Supplemental Table 3** of Lavallée VP et al 2016. We used the hg19 inbuilt annotation of `Rsubread` to obtain the gene ranges and added 500 bp at the end and at the beginning of each gene.
+You can perform variant calling on the whole genome or to a specific regions that you can specify with a `.bed` file.
+Here we show how to call variants on specific regions of interest. The target regions were created using the gene symbols of the mutations listed in **Supplemental Table 3** of [@Lavallee2016-sf] and listed in `test_data/mutations_Lavallee_2016.csv`. We used the hg19 inbuilt annotation of `Rsubread` to obtain the gene ranges and added 500 bp at the end and at the beginning of each gene. The final `bed` files is `./test_data/target_regions.bed`.
+
+View all the options in the `call_variants.R` function.
+
+```{bash eval=FALSE}
+Rscript ./functions/call_variants.R --help
+```
+
+Below is an example to run `VarDict` and `MuTect2`. The directory needed for VarDict can be downloaded from the software GitHub page https://github.com/AstraZeneca-NGS/VarDict. 
+
+
+```{bash echo=FALSE}
+
+Rscript ./functions/call_variants.R \
+--reference_fasta path_hg19_reference/genome.fa \
+--bamfile ./star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam \
+--sampleName SRR1608907 \
+--regions ./test_data/target_regions.bed \
+--genome_assembly 'GRCh37' \
+--VarDict_dir /home/software/VarDict \
+--caller vardict \
+--outputdir_suffix "defaults" \
+--VEPcall 'vep --dir_cache /stornext/HPCScratch/cache/.vep --offline' \
+--output_directory ./out_dir/
+ 
+# Mutect2 call variant 
+ 
+Rscript ./functions/call_variants.R \
+--reference_fasta path_hg19_reference/genome.fa \
+--bamfile ./star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \ 
+--sampleName SRR1608907 \
+--regions ./test_data/target_regions.bed \
+--genome_assembly 'GRCh37' \
+--caller mutect \
+--outputdir_suffix "defaults" \
+--VEPcall 'vep --dir_cache /stornext/HPCScratch/cache/.vep --offline' \
+--output_directory ./out_dir/
+```
+
+The function above wraps up calls for the callers included in the pipeline. Below are details about the actual caller settings.
+
+## Call with MuTect2
 
 ```{bash eval=FALSE}
 module load gatk/3.7.0
 
 gatk -T MuTect2 -R path_hg19_reference/genome.fa \
--I:tumor path_to_star_2pass/SampleName_RG_DUPL_SPLIT_RECALIBRATED.bam \
--L ./Methods/variant_calling_data/target_genes_Lavallee2016.bed \
--o variant_calling_dir/mutect/SampleName_germline_snvs_indels.vcf \
--log variant_calling_dir/mutect/regions/SampleName_germline_snvs_indels_log
+-I:tumor ./star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
+-L ./test_data/target_regions.bed \
+-o test_out_dir/mutect/regions/SampleName_germline_snvs_indels.vcf \
+-log test_out_dir/mutect/regions/SampleName_germline_snvs_indels_log
 ```
 
-#### Call with Samtools + VarScan2
+## Call with Samtools + VarScan2
 
 ```{bash eval=FALSE}
 module load varscan/2.3.9
@@ -488,26 +582,26 @@ module load samtools/1.6
 
 samtools mpileup --output-tags AD,ADF,ADR,DP,SP \
 --fasta-ref -R path_hg19_reference/genome.fa \
--l ./Methods/variant_calling_data/target_genes_Lavallee2016.bed path_to_star_2pass/SampleName_RG_DUPL_SPLIT_RECALIBRATED.bam | varscan mpileup2cns --variants 1 --output-vcf 1 --min-var-freq 0.01 > variant_calling_dir/varscan/regions/SampleName_germline_snvs_indels.vcf 2> variant_calling_dir/varscan/regions/SampleName_germline_snvs_indels_log
+-l ./test_data/target_regions.bed ./star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam | varscan mpileup2cns --variants 1 --output-vcf 1 --min-var-freq 0.01 > variant_calling_dir/varscan/regions/SampleName_germline_snvs_indels.vcf 2> variant_calling_dir/varscan/regions/SampleName_germline_snvs_indels_log
 ```
 
-### Call with VarDict
+## Call with VarDict
 
 The `teststrandbias.R` and `var2vcf_valid.pl` scripts were downloaded from https://github.com/AstraZeneca-NGS/VarDict. 
 
-```{bash}
+```{bash eval=FALSE}
 module load vardict/1.5.1
 
 vardict -c 1 -S 2 -E 3 -g 4 -r 2 -t -th 10 -v -G \
 -R path_hg19_reference/genome.fa \
--b path_to_star_2pass/SampleName_RG_DUPL.bam ./Methods/variant_calling_data/target_genes_Lavallee2016.bed  | vardict_dir/teststrandbias.R | vardict_dir/var2vcf_valid.pl -N -E -f 0.05 >  variant_calling_dir/vardict/regions/SampleName_germline_snvs_indels.vcf
+-b ./star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam ./test_data/target_regions.bed  | vardict_dir/teststrandbias.R | vardict_dir/var2vcf_valid.pl -N -E -f 0.05 >  variant_calling_dir/vardict/regions/SampleName_germline_snvs_indels.vcf
 ```
 
 ## Annotate variants
 
 Below is an example using the output from VarScan but the same call is used for Mutect2 and VarDict vcf files.
 
-```{bash}
+```{bash eval=FALSE}
 module load ensembl-vep/89.0
 
 vep --dir_cache dir_to_VEP_cache/.vep --offline \
@@ -516,5 +610,101 @@ vep --dir_cache dir_to_VEP_cache/.vep --offline \
 --cache --everything --force_overwrite --assembly GRCh37 --fork 12 --vcf --port 3337
 ```
 
+## Targeted INDEL calling with `km` algorithm {#indels-km}
 
+The [`km` algorithm](https://github.com/iric-soft/km) [@Software-km] can be adopted to have a more precise calls of INDELs. Calling INDELs from RNA-Seq is challenging and several tools have been published between 2017-2019 to accomplish this task. The `km` algorithm was benchmarked on the AML Leucegene and TCGA-LAML datasets.   
+
+
+# Standardise output of variants {#variants-st}
+
+We are now at the stage where variants are called. The scripts above helps with calling variants 
+using 4 callers (VarDict, Varscan, MuTect2, km). 
+
+At this stage, depending on how one needs to use the variants, there are several options:
+
+## superFreq to combine time-course mutations for one patient
+
+If you have time-course data for each patient you can use [`superFreq`](https://github.com/ChristofferFlensburg/superFreq) to analyse mutations over time; estimate the clonality development of your cancer samples; CNVs; somatic mutations etc...
+
+Below in an example call for `superFreq`.
+
+```{r eval=FALSE}
+#!/usr/bin/env Rscript
+
+individual = commandArgs(TRUE)[1]
+print(commandArgs())
+print(commandArgs(TRUE))
+
+repos_install <- 'https://cloud.r-project.org'
+RlibPath <- '/stornext/HPCScratch/home/quaglieri.a/R/x86_64-pc-linux-gnu-library/3.5'
+
+#install.packages('devtools',repos = repos_install, lib = RlibPath)
+library(devtools)
+#install_github('ChristofferFlensburg/superFreq')
+library(superFreq)
+
+reference = 'path-to/genome.fa'
+normalDirectory = './superFreq/referenceNormals'
+metadata = './test_data/superFreq/sample-metadata.tsv'
+plots = './superFreq/plots'
+rdir = './superFreq/R_full_cohort'
+
+forceRedo = forceRedoNothing()
+forceRedo$forceRedoVEP = T
+
+superFreq(metaDataFile = metadata, genome = 'hg38',captureRegions = "hg38exons.bed", plotDirectory = plots, Rdirectory=rdir, cpus=8, reference=reference, normalDirectory=normalDirectory, mode='RNA', systematicVariance=0.1, participants = "sample", forceRedo=forceRedo)
+
+```
+
+How the `metadata` for one patient with no matched normal samples looks like:
+
+```{r eval=TRUE}
+meta <- read_delim("test_data/superFreq/sample-metadata.tsv",delim = "\t")
+knitr::kable(meta)
+```
+
+More infor on `superFreq` can be found on the GitHib page and reference manual. 
+
+With the sample code above `superFreq` would create an `R` and `plots` folder. Within each folder it will create a folder for every patient. Following we will show how to summarise the information relative to somatic mutations and CNVs for the whole cohort allowing it to be explored with the `Mutexplore` app.  
+
+
+
+If you decide to call variants with one of the callers above independently from the `call_variants.R` function, you still have options to standardise the `VCF` output from a caller so to explore it with the `Mutexplore` app.  
+- No annotation is run -> apply function from `samplepower`
+- Annotation is run -> apply function from `samplepower`
+- Output is taken from superFreq -> functions from `lineplots`
+
+
+# Call fusions with `STAR-Fusion` and `FusionInspector` {#fusions}
+
+Here we suggest to ways to detect fusions from RNA-Seq samples which depends on whether one is doing an exploratory or confirmatory analysis for specific recurrent fusions (requires high sensitivity). The former analysis can be performed with [`STAR-Fusion`](https://github.com/STAR-Fusion/STAR-Fusion/wiki) and the second analysis with [`FusionInspector`](https://github.com/FusionInspector/FusionInspector/wiki) which is now integrated into `STAR-Fusion` as a sub module. `STAR-Fusion` uses the chimeric reads output from the `STAR` aligner to detect fusion trascripts. The [wiki](https://github.com/STAR-Fusion/STAR-Fusion/wiki) page of `STAR-Fusion` described how to prepare all the necessary files and software requirements to run the fusion caller. This steps are summarised in the `function/star_fusion_prepare.sh` file and they need to be run only once. 
+
+## STAR-Fusion
+
+In the code chunk below there is an example run of `STAR-Fusion` which is also wrapped into `function/star_fusion.sh`. The `--genome_lib_dir` argument is the path to the directory created with `function/star_fusion_prepare.sh`. For every sample aligned, `STAR` outputs the chimeric reads (for definition of chimeric reads see `STAR` manual) which are needed as input to `STAR-Fusion`. 
+
+```{bash eval=FALSE}
+sample=S1
+outdir=~
+
+${star_fusion_software_directory}/STAR-Fusion \
+--genome_lib_dir ${star_fusion_data_directory} \
+-J ${sample}Chimeric.out.junction \
+--CPU $(nproc) \
+--output_dir ${outdir}/${sample}
+```
+
+For more information about interpreting the output see `STAR-Fusion` wiki page.
+
+
+## FusionInspector
+
+```{r}
+
+```
+
+
+# Analyse time-course mutations with superFreq {#superfreq}
+
+# Explore mutations with the `Mutexplore` Shiny app {#mutexplore}
 

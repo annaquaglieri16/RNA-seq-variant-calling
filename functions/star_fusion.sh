@@ -2,12 +2,11 @@
 
 module load STAR
 
-star_fusion=/home/users/allstaff/quaglieri.a/software/STAR-Fusion
+star_fusion=/home/users/allstaff/quaglieri.a/software/STAR-Fusion-v1.4.0
 genomedir=$1
-gtf=$2
-chim_junction_dir=$3
-sample=$4
-outdir=$5
+chim_junction_dir=$2
+sample=$3
+outdir=$4
 
 mkdir -p ${outdir}
 
@@ -19,10 +18,11 @@ if [[ -s ${out}/star-fusion.fusion_predictions.abridged.tsv ]] ; then
 
 else
 
-	${star_fusion}/STAR-Fusion \
+  ${star_fusion}/STAR-Fusion \
 	--genome_lib_dir ${genomedir} \
 	-J ${chim_junction_dir}/${sample}Chimeric.out.junction \
 	--CPU $(nproc) \
 	--output_dir ${outdir}/${sample}
+
 
 fi

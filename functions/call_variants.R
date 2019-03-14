@@ -360,9 +360,9 @@ parse_freebayes_output <- function(VEPfreebayes){
 parse_vardict_output <- function(VEPvardict){
   
   # Extract genotype
-  readGeno <- readVcf(VEPvardict)
+  readGeno <- VariantAnnotation::readVcf(VEPvardict)
   genoDF <- data.frame(rownames(readGeno),
-                       geno(readGeno)$GT)
+                       VariantAnnotation::geno(readGeno)$GT)
   colnames(genoDF) <- c("MutName","genotype")
   
   # Convert VCF to a tsv table

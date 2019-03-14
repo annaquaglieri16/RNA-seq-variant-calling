@@ -28,7 +28,7 @@ if [[ -s ${merged_bam} ]] ; then
 else
 
 	echo "merging runs for sample $sample"
-	sambamba merge ${merged_runs}/${sample}merged_Dupl_rg.bam ${bamdir}/${sample}*Aligned.reorderedDupl.rg.bam -t $(nproc)
+	sambamba merge ${merged_runs}/${sample}merged_Dupl_rg.bam ${bamdir}/*${sample}*Aligned.reorderedDupl.rg.bam -t $(nproc)
 
 	## Convert BAM to CRAM
 	#sambamba view -T $genome_fasta -f cram -o ${star_2pass}/${sample}_merged_Dupl_rg.bam.cram ${star_2pass}/${sample}_merged_Dupl_rg.bam --nthreads $(nproc)
