@@ -1,0 +1,8 @@
+---
+title: "README"
+author: "Anna Quaglieri"
+date: "30/03/2019"
+output: github_document
+---
+
+For an overall summary look at the [RNA-Seq variant calling book]( https://rna-mutation-calls.netlify.com/). 
