@@ -1,0 +1,4 @@
+BAM	VCF	INDIVIDUAL	NAME	TIMEPOINT	NORMAL
+path-to/sample_T0.bam	path-to/sample_T0.vcf	sample	sample_T0	T0	NO
+path-to/sample_T1.bam	path-to/sample_T1.vcf	sample	sample_T1	T1	NO
+path-to/sample_T2.bam	path-to/sample_T2.vcf	sample	sample_T2	T2	NO

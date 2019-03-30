@@ -1,0 +1,385 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=alt_allele_in_normal,Description="Evidence seen in the normal sample">
+##FILTER=<ID=clustered_events,Description="Clustered events observed in the tumor">
+##FILTER=<ID=clustered_read_position,Description="Evidence for somatic variant clusters near the ends of reads">
+##FILTER=<ID=germline_risk,Description="Evidence indicates this site is germline, not somatic">
+##FILTER=<ID=homologous_mapping_event,Description="More than three events were observed in the tumor">
+##FILTER=<ID=multi_event_alt_allele_in_normal,Description="Multiple events observed in tumor and normal">
+##FILTER=<ID=panel_of_normals,Description="Seen in at least 2 samples in the panel of normals">
+##FILTER=<ID=str_contraction,Description="Site filtered due to contraction of short tandem repeat region">
+##FILTER=<ID=strand_artifact,Description="Evidence for alt allele comes from one read direction only">
+##FILTER=<ID=t_lod_fstar,Description="Tumor does not meet likelihood threshold">
+##FILTER=<ID=triallelic_site,Description="Site filtered because more than two alt alleles pass tumor LOD">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=AF,Number=1,Type=Float,Description="Allele fraction of the event in the tumor">
+##FORMAT=<ID=ALT_F1R2,Number=1,Type=Integer,Description="Count of reads in F1R2 pair orientation supporting the alternate allele">
+##FORMAT=<ID=ALT_F2R1,Number=1,Type=Integer,Description="Count of reads in F2R1 pair orientation supporting the alternate allele">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+##FORMAT=<ID=FOXOG,Number=1,Type=Float,Description="Fraction of alt reads indicating OxoG error">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=PGT,Number=1,Type=String,Description="Physical phasing haplotype information, describing how the alternate alleles are phased in relation to one another">
+##FORMAT=<ID=PID,Number=1,Type=String,Description="Physical phasing ID information, where each unique ID within a given sample (but not across samples) connects records within a phasing group">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+##FORMAT=<ID=QSS,Number=A,Type=Integer,Description="Sum of base quality scores for each allele">
+##FORMAT=<ID=REF_F1R2,Number=1,Type=Integer,Description="Count of reads in F1R2 pair orientation supporting the reference allele">
+##FORMAT=<ID=REF_F2R1,Number=1,Type=Integer,Description="Count of reads in F2R1 pair orientation supporting the reference allele">
+##GATKCommandLine.MuTect2=<ID=MuTect2,Version=3.7-0-gcfedb67,Date="Wed Apr 04 18:51:35 AEST 2018",Epoch=1522831895038,CommandLineOptions="analysis_type=MuTect2 input_file=[/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/GEO_Leucegene_data/hg19_aligned/STAR_2pass_20M_100_AML/SRX381851Recal.reorderedDupl.rg.split.bam] showFullBamList=false read_buffer_size=null read_filter=[] disable_read_filter=[] intervals=[/home/users/allstaff/quaglieri.a/PHD_project/GEO_Leucegene_data/variant_calling/hg19/target_genes_Lavallee2016_unzip.bed] excludeIntervals=null interval_set_rule=UNION interval_merging=ALL interval_padding=0 reference_sequence=/home/users/allstaff/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/hg19/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa nonDeterministicRandomSeed=false disableDithering=false maxRuntime=-1 maxRuntimeUnits=MINUTES downsampling_type=BY_SAMPLE downsample_to_fraction=null downsample_to_coverage=1000 baq=OFF baqGapOpenPenalty=40.0 refactor_NDN_cigar_string=false fix_misencoded_quality_scores=false allow_potentially_misencoded_quality_scores=false useOriginalQualities=false defaultBaseQualities=-1 performanceLog=null BQSR=null quantize_quals=0 static_quantized_quals=null round_down_quantized=false disable_indel_quals=false emit_original_quals=false preserve_qscores_less_than=6 globalQScorePrior=-1.0 secondsBetweenProgressUpdates=10 validation_strictness=SILENT remove_program_records=false keep_program_records=false sample_rename_mapping_file=null unsafe=null disable_auto_index_creation_and_locking_when_reading_rods=false no_cmdline_in_header=false sites_only=false never_trim_vcf_format_field=false bcf=false bam_compression=null simplifyBAM=false disable_bam_indexing=false generate_md5=false num_threads=1 num_cpu_threads_per_data_thread=1 num_io_threads=0 monitorThreadEfficiency=false num_bam_file_handles=null read_group_black_list=null pedigree=[] pedigreeString=[] pedigreeValidationType=STRICT allow_intervals_with_unindexed_bam=false generateShadowBCF=false variant_index_type=DYNAMIC_SEEK variant_index_parameter=-1 reference_window_stop=0 phone_home= gatk_key=null tag=NA logging_level=INFO log_to_file=/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/GEO_Leucegene_data/variant_calling/hg19/down20M_100/mutect/regions_caller_defaults/SRX381851_germline_snvs_indels_log help=false version=false cosmic=[] normal_panel=[] dbsnp=(RodBinding name= source=UNBOUND) m2debug=false artifact_detection_mode=false initial_tumor_lod=4.0 initial_normal_lod=0.5 tumor_lod=6.3 normal_lod=2.2 dbsnp_normal_lod=5.5 max_alt_alleles_in_normal_count=1 max_alt_alleles_in_normal_qscore_sum=20 max_alt_allele_in_normal_fraction=0.03 power_constant_qscore=30 strand_artifact_lod=2.0 strand_artifact_power_threshold=0.9 enable_strand_artifact_filter=false enable_clustered_read_position_filter=false pir_median_threshold=10.0 pir_mad_threshold=3.0 debug=false useFilteredReadsForAnnotations=false emitRefConfidence=NONE bamOutput=null bamWriterType=CALLED_HAPLOTYPES emitDroppedReads=false disableOptimizations=false annotateNDA=false useNewAFCalculator=false heterozygosity=0.001 indel_heterozygosity=1.25E-4 heterozygosity_stdev=0.01 standard_min_confidence_threshold_for_calling=10.0 standard_min_confidence_threshold_for_emitting=30.0 max_alternate_alleles=6 max_genotype_count=1024 max_num_PL_values=100 input_prior=[] sample_ploidy=2 genotyping_mode=DISCOVERY alleles=(RodBinding name= source=UNBOUND) contamination_fraction_to_filter=0.0 contamination_fraction_per_sample_file=null p_nonref_model=null exactcallslog=null output_mode=EMIT_VARIANTS_ONLY allSitePLs=false kmerSize=[10, 25] dontIncreaseKmerSizesForCycles=false allowNonUniqueKmersInRef=false numPruningSamples=1 recoverDanglingHeads=false doNotRecoverDanglingBranches=false minDanglingBranchLength=4 consensus=false maxNumHaplotypesInPopulation=128 errorCorrectKmers=false minPruning=2 debugGraphTransformations=false allowCyclesInKmerGraphToGeneratePaths=false graphOutput=null kmerLengthForReadErrorCorrection=25 minObservationsForKmerToBeSolid=20 gcpHMM=10 pair_hmm_implementation=VECTOR_LOGLESS_CACHING pair_hmm_sub_implementation=ENABLE_ALL always_load_vector_logless_PairHMM_lib=false phredScaledGlobalReadMismappingRate=45 noFpga=false debug_read_name=null MQ_filtering_level=20 comp=[] annotation=[DepthPerAlleleBySample, BaseQualitySumPerAlleleBySample, TandemRepeatAnnotator, OxoGReadCounts] excludeAnnotation=[SpanningDeletions] out=/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/GEO_Leucegene_data/variant_calling/hg19/down20M_100/mutect/regions_caller_defaults/SRX381851_germline_snvs_indels.vcf dontTrimActiveRegions=false maxDiscARExtension=25 maxGGAARExtension=300 paddingAroundIndels=150 paddingAroundSNPs=20 keepRG=null min_base_quality_score=10 errorCorrectReads=false captureAssemblyFailureBAM=false dontUseSoftClippedBases=false justDetermineActiveRegions=false doNotRunPhysicalPhasing=false maxReadsInRegionPerSample=1000 minReadsPerAlignmentStart=5 activityProfileOut=null activeRegionOut=null activeRegionIn=null activeRegionExtension=null forceActive=false activeRegionMaxSize=null bandPassSigma=null maxReadsInMemoryPerSample=30000 maxTotalReadsInMemory=10000000 maxProbPropagationDistance=50 activeProbabilityThreshold=0.002 filter_reads_with_N_cigar=false filter_mismatching_base_and_quals=false filter_bases_not_stored=false">
+##INFO=<ID=ECNT,Number=1,Type=String,Description="Number of events in this haplotype">
+##INFO=<ID=HCNT,Number=1,Type=String,Description="Number of haplotypes that support this variant">
+##INFO=<ID=MAX_ED,Number=1,Type=Integer,Description="Maximum distance between events in this active region">
+##INFO=<ID=MIN_ED,Number=1,Type=Integer,Description="Minimum distance between events in this active region">
+##INFO=<ID=NLOD,Number=1,Type=String,Description="Normal LOD score">
+##INFO=<ID=PON,Number=1,Type=String,Description="Count from Panel of Normals">
+##INFO=<ID=RPA,Number=.,Type=Integer,Description="Number of times tandem repeat unit is repeated, for each allele (including reference)">
+##INFO=<ID=RU,Number=1,Type=String,Description="Tandem repeat unit (bases)">
+##INFO=<ID=STR,Number=0,Type=Flag,Description="Variant is a short tandem repeat">
+##INFO=<ID=TLOD,Number=1,Type=String,Description="Tumor LOD score">
+##contig=<ID=chrM,length=16571>
+##contig=<ID=chr1,length=249250621>
+##contig=<ID=chr2,length=243199373>
+##contig=<ID=chr3,length=198022430>
+##contig=<ID=chr4,length=191154276>
+##contig=<ID=chr5,length=180915260>
+##contig=<ID=chr6,length=171115067>
+##contig=<ID=chr7,length=159138663>
+##contig=<ID=chr8,length=146364022>
+##contig=<ID=chr9,length=141213431>
+##contig=<ID=chr10,length=135534747>
+##contig=<ID=chr11,length=135006516>
+##contig=<ID=chr12,length=133851895>
+##contig=<ID=chr13,length=115169878>
+##contig=<ID=chr14,length=107349540>
+##contig=<ID=chr15,length=102531392>
+##contig=<ID=chr16,length=90354753>
+##contig=<ID=chr17,length=81195210>
+##contig=<ID=chr18,length=78077248>
+##contig=<ID=chr19,length=59128983>
+##contig=<ID=chr20,length=63025520>
+##contig=<ID=chr21,length=48129895>
+##contig=<ID=chr22,length=51304566>
+##contig=<ID=chrX,length=155270560>
+##contig=<ID=chrY,length=59373566>
+##reference=file:///home/users/allstaff/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/hg19/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SRX381851
+chr1	36933772	.	C	T	.	PASS	ECNT=1;HCNT=6;MAX_ED=.;MIN_ED=.;TLOD=7.39	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:523,9:0.017:7:2:0.222:15571,247:261:262
+chr1	36935370	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=40;MAX_ED=.;MIN_ED=.;TLOD=4.80	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:482,7:0.014:5:2:0.714:13932,203:257:225
+chr1	36937059	.	A	G	.	PASS	ECNT=1;HCNT=16;MAX_ED=.;MIN_ED=.;TLOD=515.16	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:249,239:0.504:109:130:0.544:7351,6930:123:126
+chr1	36939108	.	T	C	.	PASS	ECNT=1;HCNT=9;MAX_ED=.;MIN_ED=.;TLOD=8.63	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:377,6:0.020:5:1:0.833:10997,186:176:201
+chr1	36941395	.	G	C	.	t_lod_fstar	ECNT=1;HCNT=6;MAX_ED=.;MIN_ED=.;TLOD=4.11	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:223,3:0.016:1:2:0.333:6697,93:122:101
+chr1	36941539	.	G	GT	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;RPA=1,2;RU=T;STR;TLOD=358.56	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:182,156:0.469:89:67:.:5449,4636:86:96
+chr1	36942233	.	T	G	.	PASS	ECNT=1;HCNT=13;MAX_ED=.;MIN_ED=.;TLOD=135.64	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:29,68:0.644:25:37:0.403:765,1764:12:16
+chr1	36942369	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=7;HCNT=8;MAX_ED=191;MIN_ED=59;TLOD=6.26	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:128,5:0.038:0:5:0.00:3802,151:56:72
+chr1	36942428	.	A	AT	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=12;MAX_ED=191;MIN_ED=59;RPA=6,7;RU=T;STR;TLOD=6.42	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:116,9:0.075:6:3:.:3249,251:42:74
+chr1	36942470	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=10;MAX_ED=191;MIN_ED=59;TLOD=13.82	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:107,10:0.074:7:3:0.700:2848,299:43:64
+chr1	36942479	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=29;MAX_ED=191;MIN_ED=59;TLOD=50.62	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:98,26:0.196:15:11:0.577:2675,780:40:58
+chr1	36942517	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=25;MAX_ED=191;MIN_ED=59;TLOD=32.17	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:123,21:0.122:11:10:0.524:3592,570:56:67
+chr1	36942520	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=35;MAX_ED=191;MIN_ED=59;TLOD=86.18	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:111,31:0.244:19:12:0.613:3267,946:51:60
+chr1	36942560	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=7;HCNT=1;MAX_ED=191;MIN_ED=59;TLOD=5.30	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:189,4:0.030:2:2:0.500:5709,112:91:98
+chr1	36942956	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=11;MAX_ED=15;MIN_ED=1;TLOD=42.89	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:35,18:0.326:10:8:0.556:959,554:20:15
+chr1	36942957	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=3;MAX_ED=15;MIN_ED=1;TLOD=5.34	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:51,3:0.061:1:2:0.333:1523,88:29:22
+chr1	36942971	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=4;MAX_ED=15;MIN_ED=1;TLOD=11.81	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:57,8:0.127:4:4:0.500:1711,227:31:26
+chr1	36942998	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=6;MAX_ED=30;MIN_ED=26;TLOD=7.10	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:91,5:0.052:2:3:0.400:2619,147:46:45
+chr1	36943024	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=8;MAX_ED=30;MIN_ED=26;TLOD=17.38	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:114,11:0.095:6:5:0.545:3247,327:62:52
+chr1	36943027	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=6;MAX_ED=30;MIN_ED=26;TLOD=9.12	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:118,6:0.047:2:4:0.333:3399,177:65:53
+chr1	36943028	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=7;MAX_ED=30;MIN_ED=26;TLOD=11.45	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:117,8:0.058:6:2:0.750:3451,237:61:56
+chr1	36943141	.	A	G	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=13;MAX_ED=69;MIN_ED=31;TLOD=97.83	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:76,52:0.410:28:24:0.462:2228,1370:40:36
+chr1	36943172	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=4;MAX_ED=69;MIN_ED=31;TLOD=4.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:140,3:0.027:1:2:0.333:4154,93:73:67
+chr1	36943210	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=2;MAX_ED=69;MIN_ED=31;TLOD=8.32	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:148,7:0.040:4:3:0.571:4335,216:75:73
+chr1	36943432	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=22;MAX_ED=153;MIN_ED=1;TLOD=26.44	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:32,10:0.281:6:4:0.600:911,282:21:11
+chr1	36943433	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=52;MAX_ED=153;MIN_ED=1;TLOD=78.47	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:14,29:0.697:18:11:0.621:375,837:9:5
+chr1	36943452	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=7;HCNT=12;MAX_ED=153;MIN_ED=1;TLOD=4.48	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:36,4:0.088:2:2:0.500:1040,106:23:13
+chr1	36943457	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=10;MAX_ED=153;MIN_ED=1;TLOD=18.41	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:28,6:0.207:2:4:0.333:822,180:16:12
+chr1	36943498	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=54;MAX_ED=153;MIN_ED=1;TLOD=51.27	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:25,22:0.459:12:10:0.545:723,651:11:14
+chr1	36943560	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=66;MAX_ED=153;MIN_ED=1;TLOD=103.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:17,47:0.735:24:23:0.511:509,1238:8:9
+chr1	36943585	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=12;MAX_ED=153;MIN_ED=1;TLOD=9.68	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:50,5:0.106:2:3:0.400:1487,142:20:30
+chr1	36943631	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=8;MAX_ED=24;MIN_ED=1;TLOD=24.42	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:25,11:0.308:4:7:0.364:730,338:10:15
+chr1	36943632	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=6;MAX_ED=24;MIN_ED=1;TLOD=10.21	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:29,5:0.148:2:3:0.400:817,152:11:18
+chr1	36943655	.	G	A	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=10;MAX_ED=24;MIN_ED=1;TLOD=35.82	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:15,13:0.500:7:6:0.538:421,393:5:10
+chr1	36943873	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=6;MAX_ED=77;MIN_ED=43;TLOD=13.57	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:12,7:0.313:0:7:0.00:340,216:2:10
+chr1	36943916	.	C	G	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=6;MAX_ED=77;MIN_ED=43;TLOD=14.31	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:6,7:0.455:3:4:0.571:150,215:2:4
+chr1	36943947	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=8;MAX_ED=77;MIN_ED=43;TLOD=24.88	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:2,8:0.800:4:4:0.500:61,209:2:0
+chr1	36943950	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=4;HCNT=4;MAX_ED=77;MIN_ED=43;TLOD=4.68	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:8,2:0.200:2:0:1.00:233,59:4:4
+chr1	36944018	.	T	C	.	PASS	ECNT=2;HCNT=2;MAX_ED=2;MIN_ED=2;TLOD=19.21	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:9,6:0.455:2:4:0.333:267,177:6:3
+chr1	36944020	.	T	C	.	PASS	ECNT=2;HCNT=4;MAX_ED=2;MIN_ED=2;TLOD=19.21	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:9,6:0.455:2:4:0.333:267,189:6:3
+chr1	36944054	.	C	T	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=33;MAX_ED=247;MIN_ED=19;TLOD=23.52	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:5,9:0.636:4:5:0.556:122,274:5:0
+chr1	36944073	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=14;MAX_ED=247;MIN_ED=19;TLOD=6.83	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:10,3:0.200:0:3:0.00:0|1:36944073_T_C:279,80:7:3
+chr1	36944078	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=14;MAX_ED=247;MIN_ED=19;TLOD=6.83	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:10,3:0.200:0:3:0.00:0|1:36944073_T_C:295,49:7:3
+chr1	36944189	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=24;MAX_ED=247;MIN_ED=19;TLOD=66.24	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:32,31:0.500:15:16:0.484:903,923:16:16
+chr1	36944266	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=23;MAX_ED=247;MIN_ED=19;TLOD=36.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:17,16:0.519:6:10:0.375:478,417:6:11
+chr1	36944283	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=8;HCNT=8;MAX_ED=247;MIN_ED=19;TLOD=5.89	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:27,4:0.115:0:4:0.00:715,87:11:16
+chr1	36944298	.	C	A	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=21;MAX_ED=247;MIN_ED=19;TLOD=19.38	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:18,15:0.400:6:9:0.600:0|1:36944298_C_A:514,441:4:14
+chr1	36944301	.	C	A	.	clustered_events;homologous_mapping_event	ECNT=8;HCNT=21;MAX_ED=247;MIN_ED=19;TLOD=19.38	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:18,15:0.400:6:9:0.600:0|1:36944298_C_A:521,437:4:14
+chr1	36944369	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=16;MAX_ED=179;MIN_ED=15;TLOD=57.04	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:14,19:0.586:5:14:0.263:404,546:7:7
+chr1	36944384	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=7;HCNT=7;MAX_ED=179;MIN_ED=15;TLOD=5.29	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:24,3:0.115:1:2:0.333:642,79:9:15
+chr1	36944390	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=6;MAX_ED=179;MIN_ED=15;TLOD=7.22	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:24,5:0.167:1:4:0.200:692,128:11:13
+chr1	36944395	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=23;MAX_ED=179;MIN_ED=15;TLOD=55.63	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:11,18:0.696:7:11:0.389:326,496:4:7
+chr1	36944400	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=20;MAX_ED=179;MIN_ED=15;TLOD=74.08	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:10,24:0.741:12:12:0.500:306,655:3:7
+chr1	36944446	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=7;HCNT=23;MAX_ED=179;MIN_ED=15;TLOD=99.97	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:11,40:0.829:22:18:0.550:329,1087:2:9
+chr1	36944548	.	A	G	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=7;HCNT=2;MAX_ED=179;MIN_ED=15;TLOD=5.08	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:55,3:0.064:1:2:0.667:1503,85:15:40
+chr1	36945492	.	ATT	A	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=4,2;RU=T;STR;TLOD=4.47	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:.:0,57:0:0
+chr1	115253684	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=16.92	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,6:1.00:3:3:0.500:0,179:0:0
+chr1	115256669	.	G	A	.	t_lod_fstar	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;TLOD=4.80	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,3:0.333:0:3:0.00:117,84:3:1
+chr2	25456998	.	C	T	.	t_lod_fstar	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=4.02	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:29,2:0.071:2:0:0.00:797,62:11:18
+chr2	25462988	.	G	A	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.25	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:0.00:0,75:0:0
+chr2	25469502	.	C	T	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=24.27	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:11,12:0.500:4:8:0.667:327,343:3:8
+chr2	25498565	.	C	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.03	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,43:0:0
+chr2	25512891	.	C	T	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:1.00:0,90:0:0
+chr2	25525944	.	C	T	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.92	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,3:0.667:0:3:1.00:27,89:0:1
+chr2	25534999	.	A	G	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=4;MIN_ED=4;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.667:0|1:25534999_A_G:0,85:0:0
+chr2	25535003	.	G	A	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=4;MIN_ED=4;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0|1:25534999_A_G:0,90:0:0
+chr2	25540190	.	C	CT	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=12.18	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:4:0:.:0,120:0:0
+chr2	25548902	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=12.92	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:2,4:0.800:1:3:0.750:58,121:0:2
+chr2	25554091	.	A	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.667:0,81:0:0
+chr2	25561007	.	T	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=17.58	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:4:1:0.800:0,152:0:0
+chr2	25562815	.	CG	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=3,2;RU=G;STR;TLOD=10.42	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:.:0,119:0:0
+chr2	26018734	.	C	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:0.00:0,62:0:0
+chr2	26099013	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.95	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:1.00:0,89:0:0
+chr3	128210051	.	GCC	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=12,10;RU=C;STR;TLOD=4.62	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:.:0,89:0:0
+chr4	55589767	.	ACTTACG	A	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=7;MIN_ED=7;TLOD=261.71	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:75,78:0.519:36:42:.:0|1:55589767_ACTTACG_A:2203,2269:38:37
+chr4	55589774	.	A	AAAC	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=7;MIN_ED=7;TLOD=261.98	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:74,79:0.523:36:43:.:0|1:55589767_ACTTACG_A:2172,2291:38:36
+chr4	55599436	.	T	C	.	PASS	ECNT=1;HCNT=18;MAX_ED=.;MIN_ED=.;TLOD=14.41	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:2:3:0.400:0,158:0:0
+chr4	55605540	.	A	AT	.	t_lod_fstar	ECNT=1;HCNT=16;MAX_ED=.;MIN_ED=.;RPA=6,7;RU=T;STR;TLOD=4.13	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:174,9:0.043:4:5:.:5259,274:90:84
+chr4	106066820	.	C	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.59	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:5,4:0.400:2:2:0.500:136,110:2:3
+chr4	106093022	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,119:0:0
+chr4	106156187	.	C	T	.	PASS	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;TLOD=103.92	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:41,48:0.529:20:28:0.583:1232,1432:24:17
+chr4	106158553	.	T	A	.	t_lod_fstar	ECNT=2;HCNT=1;MAX_ED=1;MIN_ED=1;TLOD=6.18	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:22,3:0.100:2:1:0.667:0|1:106158553_T_A:657,90:12:10
+chr4	106158554	.	T	TGTACTGAG	.	t_lod_fstar	ECNT=2;HCNT=1;MAX_ED=1;MIN_ED=1;TLOD=6.18	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:22,3:0.100:2:1:.:0|1:106158553_T_A:655,92:12:10
+chr4	106159582	.	T	G	.	clustered_events	ECNT=2;HCNT=6;MAX_ED=62;MIN_ED=62;TLOD=21.62	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,8:0.636:4:4:0.500:124,246:3:1
+chr4	106159644	.	T	A	.	clustered_events	ECNT=2;HCNT=6;MAX_ED=62;MIN_ED=62;TLOD=23.64	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,9:1.00:4:5:0.444:0,256:0:0
+chr4	106160133	.	G	A	.	clustered_events	ECNT=2;HCNT=4;MAX_ED=98;MIN_ED=98;TLOD=40.09	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:11,18:0.619:4:14:0.222:322,550:7:4
+chr4	106160231	.	G	GTTTTTTTGTT	.	clustered_events	ECNT=2;HCNT=6;MAX_ED=98;MIN_ED=98;TLOD=20.73	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,7:1.00:2:5:.:0,187:0:0
+chr4	106160365	.	A	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=21.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:13,12:0.500:7:5:0.417:400,344:10:3
+chr4	106164284	.	T	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=9.37	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:2,4:0.600:1:3:0.250:62,127:0:2
+chr4	106179454	.	CAT	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:.:0,82:0:0
+chr4	106195541	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=14.31	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:1:3:0.250:0,124:0:0
+chr4	106196092	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.45	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:0:2:1.00:0,55:0:0
+chr4	106196829	.	T	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=43.22	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:19,22:0.500:8:14:0.364:584,667:13:6
+chr4	106196951	.	A	G	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=43.02	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:21,24:0.533:14:10:0.417:619,675:17:4
+chr4	106199505	.	A	T	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=38.84	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:11,18:0.591:5:13:0.722:325,541:7:4
+chr7	151851663	.	G	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=49.37	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,15:1.00:8:7:0.533:0,457:0:0
+chr7	151856050	.	C	T	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.56	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:61,3:0.059:0:3:1.00:1821,89:35:26
+chr7	151860081	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=5.89	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:52,3:0.064:0:3:0.00:1569,93:29:23
+chr7	151875046	.	A	T	.	t_lod_fstar	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=5.66	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:42,3:0.081:1:2:0.667:1230,89:14:28
+chr7	151879036	.	G	T	.	t_lod_fstar	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;TLOD=4.27	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:35,3:0.067:3:0:1.00:1035,73:26:9
+chr7	151944702	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.63	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:0:4:1.00:0,124:0:0
+chr7	152064997	.	T	A	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=36;MIN_ED=9;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:0:4:0.00:0|1:152064997_T_A:0,121:0:0
+chr7	152065006	.	A	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=36;MIN_ED=9;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:0:4:1.00:0|1:152064997_T_A:0,124:0:0
+chr7	152065031	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=36;MIN_ED=9;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:0:4:0.00:0|1:152065031_T_C:0,122:0:0
+chr7	152065033	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=36;MIN_ED=9;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:0:4:0.00:0|1:152065031_T_C:0,121:0:0
+chr7	152065377	.	G	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:0.00:0,93:0:0
+chr9	4985542	.	T	C	.	PASS	ECNT=1;HCNT=5;MAX_ED=.;MIN_ED=.;TLOD=23.70	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:12,12:0.500:9:3:0.750:332,369:2:10
+chr9	5067298	.	C	T	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=18.91	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:3,7:0.750:4:3:0.429:94,205:0:3
+chr9	5068174	.	CA	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=4;MIN_ED=4;RPA=15,14;RU=A;STR;TLOD=8.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:1,9:0.857:5:4:.:0|1:5068174_CA_C:29,247:0:1
+chr9	5068178	.	A	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=4;MIN_ED=4;TLOD=8.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:1,9:0.857:5:4:0.444:0|1:5068174_CA_C:29,222:0:1
+chr9	5081780	.	G	A	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=59.95	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:29,27:0.524:14:13:0.519:861,766:15:14
+chr9	5095049	.	ATAGAG	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=8.17	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,2:0.667:1:1:.:30,61:1:0
+chr9	5097281	.	A	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,58:0:0
+chr9	5104640	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=8.93	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:5,4:0.500:3:1:0.750:141,123:1:4
+chr9	5106023	.	A	T	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.20	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:6,2:0.333:2:0:0.00:174,59:5:1
+chr9	5106610	.	C	T	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.69	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,3:0.400:0:3:1.00:126,91:1:3
+chr9	5107394	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,120:0:0
+chr10	112327473	.	C	A	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=11.40	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,6:0.500:2:4:0.667:123,175:1:3
+chr10	112331941	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.95	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,119:0:0
+chr10	112343201	.	A	ATCCAGACAATTAAGAGATGCTCAGCAGGATGCAAGAGATAAAATG	.	t_lod_fstar	ECNT=1;HCNT=12;MAX_ED=.;MIN_ED=.;TLOD=4.69	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:136,3:0.019:1:2:.:4080,87:62:74
+chr10	112346542	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,49:0:0
+chr10	112356331	.	G	A	.	PASS	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;TLOD=34.47	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,13:1.00:7:6:0.538:0,384:0:0
+chr10	112357518	.	A	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.81	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.800:0,155:0:0
+chr10	112361870	.	A	G	.	PASS	ECNT=1;HCNT=6;MAX_ED=.;MIN_ED=.;TLOD=198.23	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,79:1.00:36:43:0.544:0,2154:0:0
+chr11	32410002	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=84.28	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,33:1.00:21:12:0.636:0,1012:0:0
+chr11	32410337	.	C	G	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=116.88	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,46:1.00:20:26:0.565:0,1391:0:0
+chr11	32411372	.	C	G	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=48;MIN_ED=48;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,121:0:0
+chr11	32411420	.	T	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=48;MIN_ED=48;TLOD=7.25	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,124:0:0
+chr11	32417354	.	T	C	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=2;MAX_ED=78;MIN_ED=78;TLOD=4.65	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,2:0.500:1:1:0.500:115,63:0:4
+chr11	32417432	.	A	G	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=2;MAX_ED=78;MIN_ED=78;TLOD=6.25	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:2,2:0.500:1:1:0.500:60,65:0:2
+chr11	32417945	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=24.61	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:18,11:0.400:4:7:0.364:504,299:10:8
+chr11	32418408	.	G	GA	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=6,7;RU=A;STR;TLOD=5.29	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:6,4:0.429:1:3:.:189,124:3:3
+chr11	32418605	.	T	A	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.89	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:3,3:0.400:0:3:0.00:91,85:1:2
+chr11	32419352	.	A	T	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,3:0.333:3:0:0.00:119,84:3:1
+chr11	32427428	.	T	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.59	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0,86:0:0
+chr11	32427823	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,119:0:0
+chr11	32428784	.	GAAAAACAA	G	.	str_contraction	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=3,2;RU=AAAAACAA;STR;TLOD=9.03	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:.:0,89:0:0
+chr11	32433872	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.02	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:2,3:0.667:0:3:0.00:58,80:2:0
+chr11	32437677	.	G	C	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=1;MAX_ED=22;MIN_ED=22;TLOD=6.12	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:2,2:0.667:0:2:0.00:0|1:32437677_G_C:64,60:0:2
+chr11	32437699	.	T	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=22;MIN_ED=22;TLOD=12.68	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:0:5:0.00:0|1:32437677_G_C:0,149:0:0
+chr11	32438050	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.17	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:17,2:0.111:0:2:0.00:502,62:7:10
+chr11	32438753	.	C	T	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=35;MIN_ED=35;TLOD=10.53	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:2:1:0.333:0,91:0:0
+chr11	32438788	.	T	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=35;MIN_ED=35;TLOD=10.63	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:3:1:0.750:0,122:0:0
+chr11	32439001	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.95	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0,89:0:0
+chr11	32451920	.	T	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.54	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:0.00:0,86:0:0
+chr11	32456562	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0,90:0:0
+chr12	25358650	.	A	T	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=28;MAX_ED=178;MIN_ED=12;TLOD=212.31	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,63:1.00:34:29:0.460:0|1:25358650_A_T:0,1845:0:0
+chr12	25358662	.	CTT	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=28;MAX_ED=178;MIN_ED=12;RPA=8,6;RU=T;STR;TLOD=202.87	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,67:1.00:35:32:.:0|1:25358650_A_T:0,2050:0:0
+chr12	25358828	.	T	G	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=40;MAX_ED=178;MIN_ED=12;TLOD=235.13	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,90:1.00:44:46:0.489:0,2704:0:0
+chr12	25358943	.	T	C	.	clustered_events	ECNT=2;HCNT=47;MAX_ED=26;MIN_ED=26;TLOD=182.94	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,63:1.00:26:37:0.413:0,1877:0:0
+chr12	25358969	.	T	G	.	clustered_events	ECNT=2;HCNT=45;MAX_ED=26;MIN_ED=26;TLOD=128.77	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,47:1.00:19:28:0.404:0,1308:0:0
+chr12	25359328	.	A	T	.	clustered_events	ECNT=2;HCNT=8;MAX_ED=24;MIN_ED=24;TLOD=126.70	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:7,71:0.925:41:30:0.423:209,2122:1:6
+chr12	25359352	.	G	A	.	clustered_events	ECNT=2;HCNT=12;MAX_ED=24;MIN_ED=24;TLOD=226.17	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,84:1.00:41:43:0.488:0,2360:0:0
+chr12	25359464	.	TA	T	.	PASS	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;RPA=2,1;RU=A;STR;TLOD=202.38	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,82:1.00:42:40:.:0,2393:0:0
+chr12	25359841	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=120.94	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,43:0.947:21:22:0.488:0,1300:0:0
+chr12	25359970	.	A	C	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=24;MAX_ED=168;MIN_ED=168;TLOD=5.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:105,3:0.035:2:1:0.333:3159,93:47:58
+chr12	25360138	.	T	C	.	clustered_events	ECNT=2;HCNT=24;MAX_ED=168;MIN_ED=168;TLOD=289.01	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,119:0.990:56:63:0.471:27,3239:1:0
+chr12	25361091	.	T	C	.	PASS	ECNT=1;HCNT=36;MAX_ED=.;MIN_ED=.;TLOD=130.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,43:1.00:23:20:0.535:0,1295:0:0
+chr12	25361620	.	A	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.90	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:146,4:0.037:1:3:0.750:4195,104:79:67
+chr12	25362217	.	A	G	.	PASS	ECNT=1;HCNT=83;MAX_ED=.;MIN_ED=.;TLOD=331.88	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,146:1.00:69:77:0.527:0,4106:0:0
+chr12	25362465	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=245.48	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,89:1.00:44:45:0.494:0,2570:0:0
+chr12	25362552	.	A	C	.	PASS	ECNT=1;HCNT=12;MAX_ED=.;MIN_ED=.;TLOD=275.27	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,112:1.00:59:53:0.473:0,3167:0:0
+chr12	25363818	.	T	TAGTAG	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=1,2;RU=AGTAG;STR;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:.:0,113:0:0
+chr12	25365450	.	G	A	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:2:1:0.667:0,88:0:0
+chr12	25365751	.	G	A	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=30;MIN_ED=10;TLOD=13.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:4:1:0.800:0|1:25365751_G_A:0,151:0:0
+chr12	25365761	.	G	A	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=30;MIN_ED=10;TLOD=16.98	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:3:1:0.750:0|1:25365751_G_A:0,120:0:0
+chr12	25365768	.	C	T	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=30;MIN_ED=10;TLOD=13.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:3:1:0.250:0|1:25365751_G_A:0,119:0:0
+chr12	25365781	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=4;HCNT=2;MAX_ED=30;MIN_ED=10;TLOD=9.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:2:1:0.667:0|1:25365751_G_A:0,90:0:0
+chr12	25368462	.	C	T	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=17.53	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.800:0,153:0:0
+chr12	25369617	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=18.08	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,7:1.00:3:4:0.571:0,219:0:0
+chr12	25370458	.	GTCTTA	G	.	str_contraction;t_lod_fstar	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;RPA=2,1;RU=TCTTA;STR;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:.:0,63:0:0
+chr12	25374971	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,58:0:0
+chr12	25375799	.	C	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:1.00:0,90:0:0
+chr12	25377692	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.53	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:0:4:1.00:0,120:0:0
+chr12	25381353	.	C	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:0:2:1.00:0,62:0:0
+chr12	25382542	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.33	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.667:0,89:0:0
+chr12	25383813	.	A	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,52:0:0
+chr12	25388290	.	G	T	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=69.73	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,27:1.00:19:8:0.704:0,813:0:0
+chr12	25389507	.	A	G	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=106.60	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,41:1.00:20:21:0.512:0,1258:0:0
+chr12	25391136	.	G	GA	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=6,7;RU=A;STR;TLOD=4.56	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:10,5:0.273:3:2:.:318,159:4:6
+chr12	25391669	.	A	G	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.31	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:15,2:0.167:1:1:0.500:425,57:8:7
+chr12	25392282	.	C	T	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=37.94	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,16:1.00:9:7:0.438:0,473:0:0
+chr12	25394779	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=37.34	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,15:1.00:3:12:0.800:0,436:0:0
+chr12	25396895	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=4.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:13,3:0.182:1:2:0.333:399,93:9:4
+chr13	28578023	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;TLOD=4.78	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:69,3:0.048:1:2:0.333:2063,96:36:33
+chr13	28578957	.	C	T	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,123:0:0
+chr13	28581020	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=5;HCNT=1;MAX_ED=25;MIN_ED=2;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:1:0:1.00:0|1:28581020_T_C:0,29:0:0
+chr13	28581022	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=5;HCNT=1;MAX_ED=25;MIN_ED=2;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:1:0:1.00:0|1:28581020_T_C:0,31:0:0
+chr13	28581024	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=5;HCNT=1;MAX_ED=25;MIN_ED=2;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:1:0:1.00:0|1:28581020_T_C:0,31:0:0
+chr13	28581036	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=5;HCNT=1;MAX_ED=25;MIN_ED=2;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:1:0:1.00:0|1:28581020_T_C:0,28:0:0
+chr13	28581045	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=5;HCNT=1;MAX_ED=25;MIN_ED=2;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:1:0:1.00:0|1:28581020_T_C:0,29:0:0
+chr13	28583581	.	A	G	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=2;MAX_ED=76;MIN_ED=76;TLOD=4.72	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,3:0.667:3:0:0.00:30,76:1:0
+chr13	28583657	.	G	A	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=76;MIN_ED=76;TLOD=6.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,59:0:0
+chr13	28585649	.	CA	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=3,2;RU=A;STR;TLOD=6.98	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:.:0,55:0:0
+chr13	28585779	.	CG	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=2;MAX_ED=14;MIN_ED=2;RPA=4,3;RU=G;STR;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:.:0|1:28585779_CG_C:0,61:0:0
+chr13	28585781	.	G	A	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=2;MAX_ED=14;MIN_ED=2;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0|1:28585779_CG_C:0,60:0:0
+chr13	28585793	.	T	TTTCC	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=2;MAX_ED=14;MIN_ED=2;RPA=6,7;RU=TTCC;STR;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:.:0,58:0:0
+chr13	28589495	.	C	G	.	clustered_events	ECNT=2;HCNT=1;MAX_ED=14;MIN_ED=14;TLOD=13.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0|1:28589495_C_G:0,127:0:0
+chr13	28589509	.	C	T	.	clustered_events	ECNT=2;HCNT=1;MAX_ED=14;MIN_ED=14;TLOD=13.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0|1:28589495_C_G:0,122:0:0
+chr13	28590258	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=17.68	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,7:1.00:2:5:0.286:0,213:0:0
+chr13	28593541	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.25	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:2:1:0.333:0,86:0:0
+chr13	28594609	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.67	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,3:0.500:1:2:0.333:116,89:0:4
+chr13	28594996	.	G	A	.	clustered_events	ECNT=2;HCNT=1;MAX_ED=3;MIN_ED=3;TLOD=17.33	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:0:5:0.00:0|1:28594996_G_A:0,127:0:0
+chr13	28594999	.	A	G	.	clustered_events	ECNT=2;HCNT=1;MAX_ED=3;MIN_ED=3;TLOD=12.83	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,6:1.00:0:6:1.00:0|1:28594996_G_A:0,185:0:0
+chr13	28600728	.	AAC	A	.	str_contraction	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=2,1;RU=AC;STR;TLOD=30.40	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,10:1.00:6:4:.:0,294:0:0
+chr13	28601782	.	CCTTT	C	.	str_contraction	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;RPA=2,1;RU=CTTT;STR;TLOD=72.04	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,23:1.00:13:10:.:0,700:0:0
+chr13	28602226	.	AAG	A	.	str_contraction	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=11,10;RU=AG;STR;TLOD=10.96	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,11:0.875:4:7:.:31,304:1:0
+chr13	28608460	.	A	T	.	t_lod_fstar	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=6.14	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:122,4:0.043:2:2:0.500:3590,121:65:57
+chr13	28611669	.	C	T	.	clustered_events	ECNT=2;HCNT=4;MAX_ED=41;MIN_ED=41;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:0.00:0,92:0:0
+chr13	28611710	.	A	G	.	clustered_events	ECNT=2;HCNT=4;MAX_ED=41;MIN_ED=41;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:0.00:0,87:0:0
+chr13	28614361	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,59:0:0
+chr13	28614491	.	G	GA	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=7,8;RU=A;STR;TLOD=5.93	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:.:0,62:0:0
+chr13	28615835	.	G	A	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.95	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0,80:0:0
+chr13	28616629	.	T	A	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=14;MIN_ED=14;TLOD=6.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:1.00:0,87:0:0
+chr13	28616643	.	G	GAAA	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=2;MAX_ED=14;MIN_ED=14;RPA=5,8;RU=A;STR;TLOD=5.09	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:.:0,96:0:0
+chr13	28617708	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,62:0:0
+chr13	28618462	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=9.73	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:2:1:0.333:0,83:0:0
+chr13	28618941	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=9.93	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:2:3:0.600:0,141:0:0
+chr13	28620220	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=22.53	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,10:1.00:8:2:0.200:0,268:0:0
+chr13	28620871	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=8;MAX_ED=57;MIN_ED=8;TLOD=14.87	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:2,4:0.800:2:2:0.500:60,120:2:0
+chr13	28620879	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=4;MAX_ED=57;MIN_ED=8;TLOD=5.29	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:5,2:0.400:2:0:1.00:146,58:2:3
+chr13	28620928	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=6;MAX_ED=57;MIN_ED=8;TLOD=6.04	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:4,4:0.400:2:2:0.500:122,131:2:2
+chr13	28621431	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:2:3:0.600:0,147:0:0
+chr13	28621521	.	T	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=14.11	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.200:0,153:0:0
+chr13	28621737	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.35	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,54:0:0
+chr13	28622924	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.75	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:0:2:0.00:0,58:0:0
+chr13	28623774	.	C	T	.	t_lod_fstar	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=4.02	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:61,3:0.054:2:1:0.333:1700,78:32:29
+chr13	28624294	.	G	A	.	PASS	ECNT=1;HCNT=48;MAX_ED=.;MIN_ED=.;TLOD=270.12	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,107:1.00:61:46:0.570:0,3148:0:0
+chr13	28625831	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,59:0:0
+chr13	28627311	.	TCA	T	.	str_contraction;t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=11,10;RU=CA;STR;TLOD=5.91	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:3:2:.:0,149:0:0
+chr13	28628825	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=18.18	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,7:1.00:0:7:0.00:0,220:0:0
+chr13	28628968	.	A	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=65.65	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,28:1.00:18:10:0.357:0,814:0:0
+chr13	28630838	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=20.66	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,8:1.00:3:5:0.625:0,240:0:0
+chr13	28631281	.	A	C	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.37	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:9,2:0.222:1:1:0.500:267,58:5:4
+chr13	28631577	.	A	T	.	t_lod_fstar	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=4.09	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:74,3:0.034:1:2:0.667:2234,85:41:33
+chr13	28636084	.	G	A	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=294.96	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,119:1.00:53:66:0.445:0,3488:0:0
+chr13	28650823	.	G	C	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=13.00	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.200:0,136:0:0
+chr13	28651546	.	C	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.95	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,60:0:0
+chr13	28660160	.	T	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0,88:0:0
+chr13	28661648	.	A	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.78	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,124:0:0
+chr13	28664457	.	G	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=25;MIN_ED=25;TLOD=13.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:2:3:0.400:0|1:28664457_G_C:0,154:0:0
+chr13	28664482	.	C	T	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=25;MIN_ED=25;TLOD=13.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:2:3:0.600:0|1:28664457_G_C:0,140:0:0
+chr17	29423119	.	T	C	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=11.83	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:6,6:0.571:4:2:0.667:155,180:4:2
+chr17	29423959	.	T	TCA	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:0:2:.:0,63:0:0
+chr17	29425483	.	A	G	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=14.40	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:3:2:0.400:0,155:0:0
+chr17	29508775	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=15.11	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:10,9:0.429:2:7:0.222:303,247:6:4
+chr17	29546175	.	T	C	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=6.52	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,3:0.667:0:3:0.00:28,96:0:1
+chr17	29553485	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=35.20	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:12,15:0.565:7:8:0.467:329,429:8:4
+chr17	29578360	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,61:0:0
+chr17	29630425	.	C	T	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=58.17	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,23:1.00:14:9:0.391:0,681:0:0
+chr17	29630970	.	A	G	.	PASS	ECNT=1;HCNT=6;MAX_ED=.;MIN_ED=.;TLOD=94.29	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:112,84:0.426:39:45:0.536:3379,2537:49:63
+chr17	29631168	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=9;MAX_ED=.;MIN_ED=.;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:171,3:0.023:3:0:1.00:5033,93:87:84
+chr17	29631228	.	G	GA	.	t_lod_fstar	ECNT=1;HCNT=23;MAX_ED=.;MIN_ED=.;RPA=6,7;RU=A;STR;TLOD=5.66	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:191,15:0.064:10:4:.:6028,428:90:101
+chr17	29632034	.	G	GT	.	t_lod_fstar	ECNT=1;HCNT=16;MAX_ED=.;MIN_ED=.;RPA=7,8;RU=T;STR;TLOD=4.01	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:305,17:0.049:7:10:.:9175,503:164:141
+chr17	29644852	.	G	A	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=133.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:55,73:0.542:32:41:0.438:1715,2225:20:35
+chr17	29645630	.	A	C	.	t_lod_fstar	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=4.34	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:184,4:0.022:3:1:0.250:5420,123:101:83
+chr17	29645875	.	T	C	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=2;MAX_ED=157;MIN_ED=157;TLOD=5.42	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:224,4:0.022:4:0:1.00:6858,124:116:108
+chr17	29646032	.	G	A	.	clustered_events	ECNT=2;HCNT=30;MAX_ED=157;MIN_ED=157;TLOD=241.65	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:74,114:0.610:60:54:0.526:2113,3109:31:43
+chr17	29703374	.	G	A	.	clustered_events	ECNT=2;HCNT=4;MAX_ED=64;MIN_ED=64;TLOD=11.65	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:3,4:0.667:1:3:0.250:88,114:1:2
+chr17	29703438	.	C	G	.	clustered_events	ECNT=2;HCNT=4;MAX_ED=64;MIN_ED=64;TLOD=12.69	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:6,6:0.625:1:5:0.833:185,166:2:4
+chr19	4047451	.	C	CA	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;RPA=6,7;RU=A;STR;TLOD=4.84	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:45,10:0.121:8:0:.:1342,237:21:24
+chr19	4048561	.	G	T	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=96;MIN_ED=96;TLOD=24.03	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,10:1.00:4:6:0.400:0,294:0:0
+chr19	4048657	.	T	C	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=2;MAX_ED=96;MIN_ED=96;TLOD=4.30	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:11,2:0.200:1:1:0.500:322,55:6:5
+chr19	4049324	.	T	C	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=13.22	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:14,7:0.357:3:4:0.429:330,175:7:7
+chr19	4050004	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=15;MAX_ED=15;MIN_ED=14;TLOD=8.30	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:36,5:0.097:2:3:0.400:1047,151:14:22
+chr19	4050018	.	T	C	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=5;MAX_ED=15;MIN_ED=14;TLOD=6.01	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:31,3:0.083:2:1:0.667:874,90:10:21
+chr19	4050019	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=10;MAX_ED=15;MIN_ED=14;TLOD=13.30	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:27,7:0.208:4:3:0.571:765,196:8:19
+chr19	4050207	.	G	A	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=9;MAX_ED=98;MIN_ED=71;TLOD=22.77	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,9:1.00:5:4:0.556:0,262:0:0
+chr19	4050278	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=8;MAX_ED=98;MIN_ED=71;TLOD=29.64	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,12:1.00:4:8:0.333:0,309:0:0
+chr19	4050305	.	T	C	.	clustered_events;homologous_mapping_event	ECNT=3;HCNT=4;MAX_ED=98;MIN_ED=71;TLOD=7.03	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:7,4:0.375:1:3:0.250:213,109:2:5
+chr19	4050399	.	T	C	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=64.09	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,22:1.00:9:13:0.409:0,668:0:0
+chr19	4050819	.	G	A	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=16.67	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:10,7:0.429:3:4:0.429:271,213:5:5
+chr19	4051489	.	A	T	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=4.16	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:32,2:0.080:1:1:0.500:902,63:10:22
+chr19	4053013	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=52.92	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,19:1.00:10:9:0.526:0,540:0:0
+chr19	4053428	.	C	T	.	PASS	ECNT=1;HCNT=4;MAX_ED=.;MIN_ED=.;TLOD=121.06	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,48:1.00:27:21:0.438:0,1406:0:0
+chr19	4053496	.	C	T	.	clustered_events	ECNT=2;HCNT=1;MAX_ED=14;MIN_ED=14;TLOD=114.16	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,35:1.00:28:7:0.200:0|1:4053496_C_T:0,988:0:0
+chr19	4053510	.	TGTGC	T	.	clustered_events;str_contraction	ECNT=2;HCNT=1;MAX_ED=14;MIN_ED=14;RPA=5,4;RU=GTGC;STR;TLOD=105.72	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,32:1.00:24:8:.:0|1:4053496_C_T:0,872:0:0
+chr19	4055631	.	T	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=84;MIN_ED=84;TLOD=6.55	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,56:0:0
+chr19	4055715	.	G	A	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=84;MIN_ED=84;TLOD=10.33	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:1:2:0.333:0,89:0:0
+chr19	4056346	.	T	C	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.85	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:1.00:0,72:0:0
+chr19	4056860	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:4:1:0.800:0,141:0:0
+chr19	4058655	.	T	TGGCCTCCTCCGAA	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.93	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:.:0,61:0:0
+chr19	4060222	.	C	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=13.31	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:3:2:0.400:0,149:0:0
+chr19	4060773	.	G	A	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=38;MIN_ED=38;TLOD=9.07	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:3,4:0.600:2:2:0.500:87,120:0:3
+chr19	4060811	.	C	T	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=38;MIN_ED=38;TLOD=12.52	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:1,5:0.800:1:4:0.800:30,144:0:1
+chr19	4061781	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=13.61	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.800:0,148:0:0
+chr19	4063067	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=9.83	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,110:0:0
+chr19	4064418	.	C	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=16.88	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:2:3:0.600:0,145:0:0
+chr19	4064672	.	C	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=19.05	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,6:1.00:3:3:0.500:0,162:0:0
+chr20	30948281	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.80	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:0:3:1.00:0,66:0:0
+chr20	30953162	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.63	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:4:0:1.00:0,121:0:0
+chr20	30954295	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,62:0:0
+chr20	31016314	.	A	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=13.41	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:1:3:0.750:0,115:0:0
+chr20	31018363	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=9.65	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:0.00:0,83:0:0
+chr20	31019024	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=17.28	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.800:0,149:0:0
+chr20	31019725	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=7.15	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:1.00:0,62:0:0
+chr20	31020229	.	C	T	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.13	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,5:1.00:1:4:0.800:0,147:0:0
+chr20	31022959	.	T	C	.	PASS	ECNT=1;HCNT=8;MAX_ED=.;MIN_ED=.;TLOD=94.84	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,38:1.00:15:23:0.395:0,1027:0:0
+chr20	31024274	.	T	C	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=147.81	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,55:1.00:30:25:0.545:0,1678:0:0
+chr20	31025163	.	A	G	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=68;MIN_ED=68;TLOD=30.22	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,11:1.00:3:8:0.727:0,275:0:0
+chr20	31025231	.	T	C	.	clustered_events	ECNT=2;HCNT=2;MAX_ED=68;MIN_ED=68;TLOD=24.74	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,11:1.00:2:9:0.182:0,334:0:0
+chr20	31025535	.	A	G	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=88.44	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,36:1.00:17:19:0.528:0,1114:0:0
+chrX	44799427	.	A	G	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=1;MAX_ED=12;MIN_ED=10;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:0.00:0|1:44799427_A_G:0,59:0:0
+chrX	44799437	.	A	G	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=1;MAX_ED=12;MIN_ED=10;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:0.00:0|1:44799427_A_G:0,61:0:0
+chrX	44799439	.	A	G	.	clustered_events;homologous_mapping_event;t_lod_fstar	ECNT=3;HCNT=1;MAX_ED=12;MIN_ED=10;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:2:0:0.00:0|1:44799427_A_G:0,56:0:0
+chrX	44940355	.	G	T	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=1;MAX_ED=4;MIN_ED=4;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:0:1:0.00:0|1:44940355_G_T:0,31:0:0
+chrX	44940359	.	T	C	.	clustered_events;t_lod_fstar	ECNT=2;HCNT=1;MAX_ED=4;MIN_ED=4;TLOD=4.50	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:0,1:1.00:0:1:0.00:0|1:44940355_G_T:0,31:0:0
+chrX	53405545	.	T	C	.	PASS	ECNT=1;HCNT=12;MAX_ED=.;MIN_ED=.;TLOD=135.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:20,56:0.729:24:32:0.429:597,1681:9:11
+chrX	53408918	.	G	A	.	t_lod_fstar	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=5.69	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:3,2:0.400:0:2:0.00:82,62:1:2
+chrX	53427397	.	T	C	.	PASS	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=12.06	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:3,5:0.667:2:3:0.400:88,156:2:1
+chrX	53432524	.	A	G	.	t_lod_fstar	ECNT=1;HCNT=6;MAX_ED=.;MIN_ED=.;TLOD=4.29	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:79,4:0.034:2:2:0.500:2201,122:41:38
+chrX	123156456	.	T	A	.	t_lod_fstar	ECNT=1;HCNT=2;MAX_ED=.;MIN_ED=.;TLOD=4.84	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:84,3:0.044:2:1:0.667:2454,91:38:46
+chrX	123174239	.	C	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=20.36	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,8:1.00:2:6:0.750:0,235:0:0
+chrX	123197845	.	C	T	.	t_lod_fstar	ECNT=1;HCNT=3;MAX_ED=.;MIN_ED=.;TLOD=4.41	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:130,3:0.028:3:0:0.00:4042,89:58:72
+chrX	123201535	.	C	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.03	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,4:1.00:2:2:0.500:0,116:0:0
+chrX	123205076	.	A	G	.	t_lod_fstar	ECNT=1;HCNT=5;MAX_ED=.;MIN_ED=.;TLOD=4.77	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:130,4:0.028:4:0:0.00:3892,120:69:61
+chrX	123229942	.	G	A	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=6.65	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,2:1.00:1:1:0.500:0,57:0:0
+chrX	123233427	.	T	G	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=10.43	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,3:1.00:3:0:1.00:0,90:0:0
+chrX	123235166	.	G	A	.	t_lod_fstar	ECNT=2;HCNT=8;MAX_ED=1;MIN_ED=1;TLOD=4.57	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:175,2:0.017:0:2:0.00:0|1:123235166_G_A:5438,59:80:95
+chrX	123235167	.	T	TCCCATTATCAA	.	t_lod_fstar	ECNT=2;HCNT=8;MAX_ED=1;MIN_ED=1;TLOD=4.53	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:PGT:PID:QSS:REF_F1R2:REF_F2R1	0/1:171,2:0.016:0:2:.:0|1:123235166_G_A:5091,59:80:91
+chrX	129147079	.	T	C	.	PASS	ECNT=1;HCNT=1;MAX_ED=.;MIN_ED=.;TLOD=30.19	GT:AD:AF:ALT_F1R2:ALT_F2R1:FOXOG:QSS:REF_F1R2:REF_F2R1	0/1:0,11:1.00:5:6:0.455:0,320:0:0

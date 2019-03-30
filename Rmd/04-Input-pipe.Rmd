@@ -1,0 +1,42 @@
+# Define files and programs needed for the pipeline {#ch:input-pipe}
+
+* The reference genome **hg19** is used for this analysis.
+* Below are all the programs and versions used
+
+```{bash eval=FALSE}
+module load STAR/2.5.2
+module load R/3.4.3
+module load anaconda2/4.0.0
+module load sambamba/0.6.6
+module load picard-tools/2.9.4
+module load gatk/3.7.0
+module load varscan/2.3.9
+module load vcftools/0.1.13
+module load samtools/1.6
+module load ensembl-vep/89.0
+module load vcflib/1.0.0-rc1
+module load vardict/1.5.1
+module load freebayes/1.1.0
+module load picard-tools/2.9.4
+```
+
+* The genome references and annotations used here have been downloaded from [iGenome website](https://support.illumina.com/sequencing/sequencing_software/igenome.html) 
+
+Below is an example of how to setup a few line of `bash` to assign directory names. 
+
+```{bash eval=FALSE}
+# Hard link to genome.fa of the reference genome 
+genome_fasta=path_to_hg19_genome_directory/genome.fa
+# Hard link to gene.gtf where gene annotation is stored
+gtf=path_to_hg19_gtf_directory/genes.gtf
+```
+
+```{bash eval=FALSE}
+# Functions directories
+workdir=../functions
+
+# STAR folders for one-pass, two-pass and merged output
+star_1pass=../results/aligned_star1
+star_2pass=../results/aligned_star2
+star_merged=../results/star_merged_runs # Every sample comes in different SRR runs which will have to be merged in one SRX sample.
+```

@@ -1,0 +1,51 @@
+# Standardise output of variants {#ch:variants-st}
+
+We are now at the stage where variants are called. The scripts above helps with calling variants 
+using 4 callers (VarDict, Varscan, MuTect2, km). 
+
+At this stage, depending on how one needs to use the variants, there are several options:
+
+## superFreq to combine time-course mutations for one patient
+
+If you have time-course data for each patient you can use software like [`superFreq`](https://github.com/ChristofferFlensburg/superFreq) to analyse mutations over time; estimate the clonality development of your cancer samples; CNVs; somatic mutations etc...
+
+```{r eval=FALSE, include=FALSE,echo=FALSE}
+#!/usr/bin/env Rscript
+
+individual = commandArgs(TRUE)[1]
+print(commandArgs())
+print(commandArgs(TRUE))
+
+repos_install <- 'https://cloud.r-project.org'
+RlibPath <- '/stornext/HPCScratch/home/quaglieri.a/R/x86_64-pc-linux-gnu-library/3.5'
+
+library(devtools)
+library(superFreq)
+
+reference = 'path-to/genome.fa'
+normalDirectory = './superFreq/referenceNormals'
+metadata = './test_data/superFreq/sample-metadata.tsv'
+plots = './superFreq/plots'
+rdir = './superFreq/R_full_cohort'
+
+forceRedo = forceRedoNothing()
+forceRedo$forceRedoVEP = T
+
+superFreq(metaDataFile = metadata, genome = 'hg38',captureRegions = "hg38exons.bed", plotDirectory = plots, Rdirectory=rdir, cpus=8, reference=reference, normalDirectory=normalDirectory, mode='RNA', systematicVariance=0.1, participants = "sample", forceRedo=forceRedo)
+
+```
+
+
+```{r eval=FALSE,include=FALSE,echo=FALSE}
+#How the `metadata` for one patient with no matched normal samples looks like:
+
+meta <- read_delim("../data/sample-metadata.tsv",delim = "\t")
+knitr::kable(meta)
+```
+
+
+
+If you decide to call variants with one of the callers above independently from the `call_variants.R` function, you still have options to standardise the `VCF` output from a caller so to explore it with the `Mutexplore` app.  
+- No annotation is run -> apply function from `samplepower`
+- Annotation is run -> apply function from `samplepower`
+- Output is taken from superFreq -> functions from `lineplots`

@@ -1,0 +1,61 @@
+# Download RNA-Seq data from GEO {#ch:download}
+
+We will provide an example on how to download data from GEO using the Leucegene CBF-AML RNS-Seq data uploaded at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642. 
+The first step in dowloading data from GEO is to download the `SRA` files. For that we need to get `SRX` entries which each one corresponds to a sample in the RNA-Seq cohort.
+
+## Get SRX sample names 
+
+```{r message=FALSE,warning=FALSE}
+library(GEOquery)
+library(tidyverse)
+library(knitr)
+library(stringr)
+```
+
+Below is an example using one accession number from the [Leucegene data](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642).
+
+```{r eval=FALSE}
+# Get matrix files for every accession number
+series_matrix_info <- function(gse){
+gsed <- getGEO(gse,GSEMatrix=TRUE)
+gse.mat <- pData(phenoData(gsed[[1]]))
+reduced <- gse.mat[,c("title","geo_accession","relation.1")]
+write.csv(reduced,file.path("../data",paste(gse,"_",nrow(gse.mat),".csv",sep="")),row.names = FALSE)
+}
+
+series_matrix_info("GSE49642") # 43 samples
+```
+
+
+Every row in Table \@ref(tab:SRX) contains sample names (`title`) and `GSM` accession numbers. In order to download a particular sample we need the `SRA` terms which are the names starting with: `SRX***` in the `relation.1` column. The structure of the matrix might change across different studies but you should be able to find `SRX` entries hidden somewhere in the `GSEMatrix`!
+
+```{r SRX,message=FALSE}
+matrix_file <- list.files(path = file.path("data"),pattern = "GSE",full.names = TRUE)
+GSEmatrix <- read_csv(matrix_file)
+
+kable(GSEmatrix[1:5,],caption="SRX sample names.")
+```
+
+With some string processing we can extract the `SRX` entries. 
+
+```{r message=FALSE}
+GSEmatrix$SRX <- stringr::str_extract(string = GSEmatrix$relation.1,pattern = "SRX[0-9][0-9][0-9][0-9][0-9][0-9]")
+GSEmatrix$relation.1 <- NULL
+kable(head(GSEmatrix))
+```
+
+## Create NCBI query
+
+```{r}
+search_ncbi <- paste(GSEmatrix$SRX,collapse=" OR ")
+search_ncbi
+```
+
+Paste the search `r search_ncbi` into NCBI https://www.ncbi.nlm.nih.gov/sra and follow the intructions in https://www.ncbi.nlm.nih.gov/sra/docs/sradownload/#download-sequence-data-files-usi **Download sequence data files using SRA Toolkit** to download all the `SRR` run names and information of the runs. 
+
+```{bash eval=FALSE}
+# Files are saved in the home directory under ncbi/public/sra
+prefetch --option-file SraAccList_CBF-AML_Leucegene.txt
+```
+
+SRA files can then be converted to `fastq` files with `fastq-dump --split-files`. 

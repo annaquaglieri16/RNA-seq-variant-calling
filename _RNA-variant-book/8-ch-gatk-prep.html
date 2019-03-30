@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>8 GATK pre-processing | From FASTQ files to Variant Calling for RNA-Seq</title>
+  <meta name="description" content="8 GATK pre-processing | From FASTQ files to Variant Calling for RNA-Seq">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="8 GATK pre-processing | From FASTQ files to Variant Calling for RNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8 GATK pre-processing | From FASTQ files to Variant Calling for RNA-Seq" />
+  
+  
+  
+
+<meta name="author" content="Anna Quaglieri">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="7-ch-merge-bamfiles.html">
+<link rel="next" href="9-ch-call-variants.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#disclaimer"><i class="fa fa-check"></i><b>1.1</b> Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-ch-download.html"><a href="2-ch-download.html"><i class="fa fa-check"></i><b>2</b> Download RNA-Seq data from GEO</a><ul>
+<li class="chapter" data-level="2.1" data-path="2-ch-download.html"><a href="2-ch-download.html#get-srx-sample-names"><i class="fa fa-check"></i><b>2.1</b> Get SRX sample names</a></li>
+<li class="chapter" data-level="2.2" data-path="2-ch-download.html"><a href="2-ch-download.html#create-ncbi-query"><i class="fa fa-check"></i><b>2.2</b> Create NCBI query</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-ch-downsample.html"><a href="3-ch-downsample.html"><i class="fa fa-check"></i><b>3</b> Downsampling FASTQ files</a></li>
+<li class="chapter" data-level="4" data-path="4-ch-input-pipe.html"><a href="4-ch-input-pipe.html"><i class="fa fa-check"></i><b>4</b> Define files and programs needed for the pipeline</a></li>
+<li class="chapter" data-level="5" data-path="5-ch-fastqc.html"><a href="5-ch-fastqc.html"><i class="fa fa-check"></i><b>5</b> FASTQC and adapters trimming</a><ul>
+<li class="chapter" data-level="5.1" data-path="5-ch-fastqc.html"><a href="5-ch-fastqc.html#parallelise-your-fastqc"><i class="fa fa-check"></i><b>5.1</b> Parallelise your <code>FASTQC</code></a></li>
+<li class="chapter" data-level="5.2" data-path="5-ch-fastqc.html"><a href="5-ch-fastqc.html#summarise-reports-with-multiqc"><i class="fa fa-check"></i><b>5.2</b> Summarise reports with <code>MultiQC</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="6-ch-align.html"><a href="6-ch-align.html"><i class="fa fa-check"></i><b>6</b> Alignement, Read Groups, Mark duplicates</a><ul>
+<li class="chapter" data-level="6.1" data-path="6-ch-align.html"><a href="6-ch-align.html#create-star-index"><i class="fa fa-check"></i><b>6.1</b> Create <code>STAR</code> index</a></li>
+<li class="chapter" data-level="6.2" data-path="6-ch-align.html"><a href="6-ch-align.html#star-1pass"><i class="fa fa-check"></i><b>6.2</b> STAR-1pass</a></li>
+<li class="chapter" data-level="6.3" data-path="6-ch-align.html"><a href="6-ch-align.html#star-2pass"><i class="fa fa-check"></i><b>6.3</b> STAR-2pass</a></li>
+<li class="chapter" data-level="6.4" data-path="6-ch-align.html"><a href="6-ch-align.html#sec:post-align"><i class="fa fa-check"></i><b>6.4</b> Details about post-alignment functions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="7-ch-merge-bamfiles.html"><a href="7-ch-merge-bamfiles.html"><i class="fa fa-check"></i><b>7</b> Merge bamfiles</a></li>
+<li class="chapter" data-level="8" data-path="8-ch-gatk-prep.html"><a href="8-ch-gatk-prep.html"><i class="fa fa-check"></i><b>8</b> GATK pre-processing</a><ul>
+<li class="chapter" data-level="8.1" data-path="8-ch-gatk-prep.html"><a href="8-ch-gatk-prep.html#splitncigarreads"><i class="fa fa-check"></i><b>8.1</b> SplitNCigarReads</a></li>
+<li class="chapter" data-level="8.2" data-path="8-ch-gatk-prep.html"><a href="8-ch-gatk-prep.html#base-recalibration"><i class="fa fa-check"></i><b>8.2</b> Base recalibration</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html"><i class="fa fa-check"></i><b>9</b> Variant calling</a><ul>
+<li class="chapter" data-level="9.1" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#call-with-mutect2"><i class="fa fa-check"></i><b>9.1</b> Call with MuTect2</a></li>
+<li class="chapter" data-level="9.2" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#call-with-samtools-varscan2"><i class="fa fa-check"></i><b>9.2</b> Call with Samtools + VarScan2</a></li>
+<li class="chapter" data-level="9.3" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#call-with-vardict"><i class="fa fa-check"></i><b>9.3</b> Call with VarDict</a></li>
+<li class="chapter" data-level="9.4" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#annotate-variants"><i class="fa fa-check"></i><b>9.4</b> Annotate variants</a></li>
+<li class="chapter" data-level="9.5" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#indels-km"><i class="fa fa-check"></i><b>9.5</b> Targeted INDEL calling with <code>km</code> algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-ch-variants-st.html"><a href="10-ch-variants-st.html"><i class="fa fa-check"></i><b>10</b> Standardise output of variants</a><ul>
+<li class="chapter" data-level="10.1" data-path="10-ch-variants-st.html"><a href="10-ch-variants-st.html#superfreq-to-combine-time-course-mutations-for-one-patient"><i class="fa fa-check"></i><b>10.1</b> superFreq to combine time-course mutations for one patient</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-ch-fusions.html"><a href="11-ch-fusions.html"><i class="fa fa-check"></i><b>11</b> Call fusions with <code>STAR-Fusion</code> and <code>FusionInspector</code></a></li>
+<li class="chapter" data-level="12" data-path="12-ch-superfreq.html"><a href="12-ch-superfreq.html"><i class="fa fa-check"></i><b>12</b> Analyse time-course mutations with superFreq</a><ul>
+<li class="chapter" data-level="12.1" data-path="12-ch-superfreq.html"><a href="12-ch-superfreq.html#sec:mutexplore"><i class="fa fa-check"></i><b>12.1</b> Explore mutations with the <code>Mutexplore</code> Shiny app</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">From FASTQ files to Variant Calling for RNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:gatk-prep" class="section level1">
+<h1><span class="header-section-number">8</span> GATK pre-processing</h1>
+<p>This pipeline contains function to call variants with <code>MuTect2</code>, <code>Samtools + VarScan2</code>, <code>VarDict</code> and <code>Freebayes</code>. In order to run <code>MuTect2</code> some GATK pre-processing are needed. The function <code>function/gatk_process_pipe.R</code> will perform the following steps:</p>
+<ul>
+<li><em>SplitNCigarReads</em> see <a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_rnaseq_SplitNCigarReads.php">GATK documentation</a></li>
+<li><em>Base recalibration</em> see <a href="https://gatkforums.broadinstitute.org/gatk/discussion/44/base-quality-score-recalibration-bqsr">GATK documentation</a>.</li>
+</ul>
+<p>Below is an example call which wraps the steps above and check if files have already been created.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">Rscript</span> ../functions/gatk_process_pipe.R \
+--reference_fasta path_to_genome.fa \
+--bamfile ../results/star_2pass/SRR1608907Aligned.reorderedDupl.rg.bam \
+--sampleName SRX381851 \
+-knownSites path_to_GATK_Bundle_files/dbsnp_138.hg19.excluding_sites_after_129.vcf \
+-knownSites path_to_GATK_Bundle_files/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-knownSites path_to_GATK_Bundle_files/1000G_phase1.indels.hg19.sites.vcf </code></pre></div>
+<p>The function above is a wrapper for the following <code>GATK3</code> calls.</p>
+<div id="splitncigarreads" class="section level2">
+<h2><span class="header-section-number">8.1</span> SplitNCigarReads</h2>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">gatk</span> -T SplitNCigarReads -R path_to_genome.fa \
+-I ../results/star_2pass/SRR1608907Aligned.reorderedDupl.rg.bam \
+-o ../results/star_2pass/SRR1608907Aligned.reorderedDupl.rg.split.bam \
+--filter_mismatching_base_and_quals -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 \
+--log_to_file ../results/star_2pass/SRR1608907_RG_DUPL_SPLIT_log</code></pre></div>
+</div>
+<div id="base-recalibration" class="section level2">
+<h2><span class="header-section-number">8.2</span> Base recalibration</h2>
+<p>Base recalibration using known sites downloaded from the <a href="https://github.com/snewhouse/ngs_nextflow/wiki/GATK-Bundle">GATK Bundle</a></p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">module</span> load gatk/3.7.0
+
+<span class="ex">gatk</span> -T BaseRecalibrator -R path_to_genome.fa \
+-I ../results/star_2pass/SRR1608907Aligned.reorderedDupl.rg.split.bam -nct 8 \
+-knownSites path_to_GATK_Bundle_files/dbsnp_138.hg19.excluding_sites_after_129.vcf \
+-knownSites path_to_GATK_Bundle_files/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-knownSites path_to_GATK_Bundle_files/1000G_phase1.indels.hg19.sites.vcf \
+-o ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_recal_data.table \
+--log_to_file ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_recal_step1_log 
+
+<span class="ex">gatk</span> -T BaseRecalibrator -R path_hg19_reference/genome.fa \
+-I ../results/star_2pass/SRR1608907Aligned.reorderedDupl.rg.split.bam -nct 8 \
+-knownSites path_to_GATK_Bundle_files/dbsnp_138.hg19.excluding_sites_after_129.vcf \
+-knownSites path_to_GATK_Bundle_files/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+-knownSites path_to_GATK_Bundle_files/1000G_phase1.indels.hg19.sites.vcf \
+-BQSR ../results/star_2pass/BaseQRecal/SRR1608907/SampleName_recal_data.table \
+-o ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_post_recal_data.table \
+--log_to_file ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_recal_step2_log 
+
+<span class="ex">gatk</span> -T AnalyzeCovariates -R path_hg19_reference/genome.fa \
+-before ../results/star_2pass/BaseQRecal/SRR1608907/SSRR1608907_recal_data.table \
+-after ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_post_recal_data.table \
+-csv ../results/star_2pass/BaseQRecal/SRR1608907/SSRR1608907_recalibration_plots.csv \
+-plots ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_recalibration_plots.pdf \
+--log_to_file ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_recal_analyseCov_log 
+
+<span class="ex">gatk</span> -T PrintReads -R path_hg19_reference/genome.fa \
+-I ../results/star_2pass/SRR1608907Aligned.reorderedDupl.rg.split.bam \
+-o ../results/star_2pass/SRR1608907Recal.reorderedDupl.rg.split.bam \
+-nct 8 -BQSR ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_post_recal_data.table \
+--log_to_file ../results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_Log_recalibrated_bases</code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="7-ch-merge-bamfiles.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="9-ch-call-variants.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["RNA-variant-book.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

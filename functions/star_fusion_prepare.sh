@@ -16,10 +16,6 @@ gtf=/wehisan/home/allstaff/q/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/
 ve-2015-08-11-09-31-31/Genes/genes.gtf
 genome_fasta=/wehisan/home/allstaff/q/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/hg38/NCBI/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa
 
-mkdir -p ${star_fusion_data}
-
-cd ${star_fusion_data}
-
 # 0. Download fusion annotation
 # check if fusion annotation is present or get it from https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/
 # annotation=./Trinity/CTAT_RESOURCE_LIB/GRCh38_gencode_v26_CTAT_lib_July192017.source_data/fusion_lib.dat.gz
@@ -57,6 +53,7 @@ module load samtools/1.9
 $star_fusion_source/FusionFilter/prep_genome_lib.pl \
                          --genome_fa $genome_fasta \
                          --gtf $gtf \
-                         --fusion_annot_lib CTAT_HumanFusionLib.dat.gz \
+                         --CPU 20 \
+                         --fusion_annot_lib CTAT_HumanFusionLib.v0.1.0.dat.gz \
                          --annot_filter_rule AnnotFilterRule.pm \
                          --pfam_db PFAM.domtblout.dat.gz

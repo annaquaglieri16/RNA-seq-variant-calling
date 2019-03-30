@@ -1,0 +1,7 @@
+book_filename: "RNA-variant-book"
+language:
+  ui:
+  chapter_name: "Chapter "
+rmd_subdir: true
+output_dir: _RNA-variant-book
+delete_merged_file: true

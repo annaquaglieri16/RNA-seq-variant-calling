@@ -1,0 +1,60 @@
+INFO  18:51:34,623 HelpFormatter - ---------------------------------------------------------------------------------- 
+INFO  18:51:34,627 HelpFormatter - The Genome Analysis Toolkit (GATK) v3.7-0-gcfedb67, Compiled 2016/12/12 11:21:18 
+INFO  18:51:34,627 HelpFormatter - Copyright (c) 2010-2016 The Broad Institute 
+INFO  18:51:34,627 HelpFormatter - For support and documentation go to https://software.broadinstitute.org/gatk 
+INFO  18:51:34,627 HelpFormatter - [Wed Apr 04 18:51:34 AEST 2018] Executing on Linux 3.10.0-514.2.2.el7.x86_64 amd64 
+INFO  18:51:34,628 HelpFormatter - Java HotSpot(TM) 64-Bit Server VM 1.8.0_92-b14 
+INFO  18:51:34,632 HelpFormatter - Program Args: -T MuTect2 -R /home/users/allstaff/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes/hg19/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa -I:tumor /wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/GEO_Leucegene_data/hg19_aligned/STAR_2pass_20M_100_AML/SRX381851Recal.reorderedDupl.rg.split.bam -L /home/users/allstaff/quaglieri.a/PHD_project/GEO_Leucegene_data/variant_calling/hg19/target_genes_Lavallee2016_unzip.bed -o /wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/GEO_Leucegene_data/variant_calling/hg19/down20M_100/mutect/regions_caller_defaults/SRX381851_germline_snvs_indels.vcf -log /wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/GEO_Leucegene_data/variant_calling/hg19/down20M_100/mutect/regions_caller_defaults/SRX381851_germline_snvs_indels_log 
+INFO  18:51:34,638 HelpFormatter - Executing as quaglieri.a@trqn-s0036.hpc.wehi.edu.au on Linux 3.10.0-514.2.2.el7.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_92-b14. 
+INFO  18:51:34,638 HelpFormatter - Date/Time: 2018/04/04 18:51:34 
+INFO  18:51:34,638 HelpFormatter - ---------------------------------------------------------------------------------- 
+INFO  18:51:34,639 HelpFormatter - ---------------------------------------------------------------------------------- 
+INFO  18:51:34,655 GenomeAnalysisEngine - Strictness is SILENT 
+INFO  18:51:34,766 GenomeAnalysisEngine - Downsampling Settings: Method: BY_SAMPLE, Target Coverage: 1000 
+INFO  18:51:34,775 SAMDataSource$SAMReaders - Initializing SAMRecords in serial 
+INFO  18:51:34,815 SAMDataSource$SAMReaders - Done initializing BAM readers: total time 0.04 
+INFO  18:51:34,877 IntervalUtils - Processing 2047405 bp from intervals 
+INFO  18:51:34,958 GenomeAnalysisEngine - Preparing for traversal over 1 BAM files 
+INFO  18:51:34,991 GenomeAnalysisEngine - Done preparing for traversal 
+INFO  18:51:34,991 ProgressMeter - [INITIALIZATION COMPLETE; STARTING PROCESSING] 
+INFO  18:51:34,992 ProgressMeter -                 |      processed |    time |         per 1M |           |   total | remaining 
+INFO  18:51:34,992 ProgressMeter -        Location | active regions | elapsed | active regions | completed | runtime |   runtime 
+INFO  18:51:35,094 MuTect2 - Using global mismapping rate of 45 => -4.5 in log10 likelihood units 
+INFO  18:51:36,214 VectorLoglessPairHMM - libVectorLoglessPairHMM unpacked successfully from GATK jar file 
+INFO  18:51:36,215 VectorLoglessPairHMM - Using vectorized implementation of PairHMM 
+INFO  18:52:05,000 ProgressMeter -   chr1:36937401              0.0    30.0 s           49.6 w        0.3%     3.2 h       3.2 h 
+INFO  18:52:35,004 ProgressMeter -   chr1:36942946              0.0    60.0 s           99.2 w        0.5%     3.2 h       3.1 h 
+INFO  18:53:05,007 ProgressMeter -  chr1:115252545          16271.0    90.0 s           92.2 m        1.0%     2.4 h       2.4 h 
+WARN  18:53:08,045 SomaticGenotypingEngine - At Locus chrchr2:25543939, we detected that variant context had alleles that not in PRALM. VC alleles = [T*, G], PRALM alleles = [] 
+WARN  18:53:08,046 SomaticGenotypingEngine - At Locus chrchr2:25543950, we detected that variant context had alleles that not in PRALM. VC alleles = [C, G*], PRALM alleles = [] 
+WARN  18:53:08,047 SomaticGenotypingEngine - At Locus chrchr2:25543954, we detected that variant context had alleles that not in PRALM. VC alleles = [A, AT*], PRALM alleles = [] 
+WARN  18:53:08,047 SomaticGenotypingEngine - At Locus chrchr2:25543957, we detected that variant context had alleles that not in PRALM. VC alleles = [C, G*], PRALM alleles = [] 
+WARN  18:53:08,048 SomaticGenotypingEngine - At Locus chrchr2:25543959, we detected that variant context had alleles that not in PRALM. VC alleles = [A*, G], PRALM alleles = [] 
+INFO  18:53:35,014 ProgressMeter -   chr4:55606782         412054.0   120.0 s            4.9 m       18.1%    11.1 m       9.1 m 
+WARN  18:53:56,346 SomaticGenotypingEngine - At Locus chrchr10:112327596, we detected that variant context had alleles that not in PRALM. VC alleles = [C*, T], PRALM alleles = [] 
+WARN  18:53:56,347 SomaticGenotypingEngine - At Locus chrchr10:112327597, we detected that variant context had alleles that not in PRALM. VC alleles = [C*, T], PRALM alleles = [] 
+INFO  18:54:05,028 ProgressMeter -  chr12:25360322        1243274.0     2.5 m          120.0 s       50.6%     4.9 m       2.4 m 
+WARN  18:54:21,251 SomaticGenotypingEngine - At Locus chrchr13:28631942, we detected that variant context had alleles that not in PRALM. VC alleles = [C*, T], PRALM alleles = [] 
+WARN  18:54:21,969 SomaticGenotypingEngine - At Locus chrchr17:29539642, we detected that variant context had alleles that not in PRALM. VC alleles = [C, T*], PRALM alleles = [] 
+INFO  18:54:35,031 ProgressMeter -  chr17:29632091        1384734.0     3.0 m            2.2 m       67.7%     4.4 m      85.0 s 
+INFO  18:55:05,033 ProgressMeter -  chr20:31024130        1689084.0     3.5 m            2.1 m       76.1%     4.6 m      65.0 s 
+WARN  18:55:07,004 SomaticGenotypingEngine - At Locus chrchrX:44871541, we detected that variant context had alleles that not in PRALM. VC alleles = [A, G*], PRALM alleles = [] 
+WARN  18:55:07,005 SomaticGenotypingEngine - At Locus chrchrX:44871557, we detected that variant context had alleles that not in PRALM. VC alleles = [C, T*], PRALM alleles = [] 
+WARN  18:55:09,999 SomaticGenotypingEngine - At Locus chrchrX:44940363, we detected that variant context had alleles that not in PRALM. VC alleles = [A, G*], PRALM alleles = [] 
+WARN  18:55:15,485 SomaticGenotypingEngine - At Locus chrchrX:53420788, we detected that variant context had alleles that not in PRALM. VC alleles = [C, T*], PRALM alleles = [] 
+WARN  18:55:15,488 SomaticGenotypingEngine - At Locus chrchrX:53420790, we detected that variant context had alleles that not in PRALM. VC alleles = [C, T*], PRALM alleles = [] 
+WARN  18:55:15,489 SomaticGenotypingEngine - At Locus chrchrX:53420820, we detected that variant context had alleles that not in PRALM. VC alleles = [C, T*], PRALM alleles = [] 
+WARN  18:55:27,556 SomaticGenotypingEngine - At Locus chrchrX:129191962, we detected that variant context had alleles that not in PRALM. VC alleles = [A, G*], PRALM alleles = [] 
+INFO  18:55:27,560 VectorLoglessPairHMM - Time spent in setup for JNI call : 0.083520673 
+INFO  18:55:27,560 PairHMM - Total compute time in PairHMM computeLikelihoods() : 137.688637645 
+INFO  18:55:27,561 MuTect2 - Ran local assembly on 233 active regions 
+INFO  18:55:27,650 ProgressMeter -            done        3215708.0     3.9 m           72.0 s      100.0%     3.9 m       0.0 s 
+INFO  18:55:27,651 ProgressMeter - Total runtime 232.66 secs, 3.88 min, 0.06 hours 
+INFO  18:55:27,652 MicroScheduler - 6565 reads were filtered out during the traversal out of approximately 168135 total reads (3.90%) 
+INFO  18:55:27,652 MicroScheduler -   -> 0 reads (0.00% of total) failing BadCigarFilter 
+INFO  18:55:27,652 MicroScheduler -   -> 5607 reads (3.33% of total) failing DuplicateReadFilter 
+INFO  18:55:27,653 MicroScheduler -   -> 0 reads (0.00% of total) failing FailsVendorQualityCheckFilter 
+INFO  18:55:27,666 MicroScheduler -   -> 0 reads (0.00% of total) failing MalformedReadFilter 
+INFO  18:55:27,666 MicroScheduler -   -> 0 reads (0.00% of total) failing MappingQualityUnavailableFilter 
+INFO  18:55:27,666 MicroScheduler -   -> 958 reads (0.57% of total) failing NotPrimaryAlignmentFilter 
+INFO  18:55:27,667 MicroScheduler -   -> 0 reads (0.00% of total) failing UnmappedReadFilter 

@@ -1,0 +1,21 @@
+bookdown::gitbook:
+  dev: "png"
+  split_by: chapter+number
+  split_bib: no
+  fig_retina: 1
+  config:
+    toc:
+      collapse: none
+    download: ["pdf"]
+  sharing: no
+bookdown::pdf_book:
+  dev: "pdf"
+  fig_caption: yes
+  fig_height: 3.8
+  fig_width: 6.3
+  keep_tex: no
+  number_sections: yes
+  pandoc_args: [
+    "--top-level-division=chapter"
+  ]
+  citation_package: biblatex

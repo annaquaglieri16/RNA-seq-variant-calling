@@ -1,0 +1,96 @@
+# Variant calling {#ch:call-variants}
+
+You can perform variant calling on the whole genome or to a specific regions that you can specify with a `.bed` file.
+Here we show how to call variants on specific regions of interest. The target regions were created using the gene symbols of the mutations listed in **Supplemental Table 3** of [@Lavallee2016-sf] and listed in `../data/mutations_Lavallee_2016.csv`. We used the hg19 inbuilt annotation of `Rsubread` to obtain the gene ranges and added 500 bp at the end and at the beginning of each gene. The final `bed` files is `../data/target_regions.bed`.
+
+View all the options in the `../functions/call_variants.R` function.
+
+```{bash eval=FALSE}
+Rscript ../functions/call_variants.R --help
+```
+
+Below is an example to run `VarDict` and `MuTect2` in tumour-only mode. The directory needed for VarDict can be downloaded from the software GitHub page https://github.com/AstraZeneca-NGS/VarDict. 
+
+
+```{bash echo=FALSE,eval=FALSE}
+# Vardict tumour-only call
+Rscript ../functions/call_variants.R \
+--reference_fasta path_hg19_reference/genome.fa \
+--bamfile ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam \
+--sampleName SRR1608907 \
+--regions ../data/target_regions.bed \
+--genome_assembly 'GRCh37' \
+--VarDict_dir /home/software/VarDict \
+--caller vardict \
+--outputdir_suffix "defaults" \
+--VEPcall 'vep --dir_cache path_to_vep_cache/.vep --offline' \
+--output_directory ../results/
+ 
+# Mutect2 tumour-only call 
+ 
+Rscript ../functions/call_variants.R \
+--reference_fasta path_to_genome.fa \
+--bamfile ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
+--sampleName SRR1608907 \
+--regions ../data/target_regions.bed \
+--genome_assembly 'GRCh37' \
+--caller mutect \
+--outputdir_suffix "defaults" \
+--VEPcall 'vep --dir_cache path_to_vep_cache/.vep --offline' \
+--output_directory ../results/
+```
+
+The function above wraps up calls for the callers included in the pipeline. Below are details about the actual caller settings that I normally use to call variants with these callers..
+
+## Call with MuTect2
+
+```{bash eval=FALSE}
+module load gatk/3.7.0
+
+gatk -T MuTect2 -R path_to_genome.fa \
+-I:tumor ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
+-L ../data/target_regions.bed \
+-o ../results/mutect/regions/SampleName_germline_snvs_indels.vcf \
+-log ../results/mutect/regions/SampleName_germline_snvs_indels_log
+```
+
+## Call with Samtools + VarScan2
+
+```{bash eval=FALSE}
+module load varscan/2.3.9
+module load samtools/1.6
+
+samtools mpileup --output-tags AD,ADF,ADR,DP,SP \
+--fasta-ref -R path_to_genome.fa \
+-l ../data/target_regions.bed ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam | varscan mpileup2cns --variants 1 --output-vcf 1 --min-var-freq 0.01 > ../results/varscan/regions/SampleName_germline_snvs_indels.vcf 2> ../results/varscan/regions/SampleName_germline_snvs_indels_log
+```
+
+## Call with VarDict
+
+The `teststrandbias.R` and `var2vcf_valid.pl` scripts were downloaded from https://github.com/AstraZeneca-NGS/VarDict. VarDict only calls variants on a target region.
+
+```{bash eval=FALSE}
+module load vardict/1.5.1
+
+vardict -c 1 -S 2 -E 3 -g 4 -r 2 -t -th 10 -v -G \
+-R path_to_genome.fa \
+-b ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam ../data/target_regions.bed  | vardict_dir/teststrandbias.R | vardict_dir/var2vcf_valid.pl -N -E -f 0.05 >  ../results/vardict/regions/SampleName_germline_snvs_indels.vcf
+```
+
+## Annotate variants
+
+Below is an example using the output from VarScan but the same call is used for Mutect2 and VarDict vcf files.
+
+```{bash eval=FALSE}
+module load ensembl-vep/89.0
+
+vep --dir_cache dir_to_VEP_cache/.vep --offline \
+-i ../results/varscan/regions/SampleName_germline_snvs_indels.vcf \
+-o ../results/varscan/regions/annotated_variants/SampleName_germline_annotated.vcf \
+--cache --everything --force_overwrite --assembly GRCh37 --fork 12 --vcf --port 3337
+```
+
+## Targeted INDEL calling with `km` algorithm {#indels-km}
+
+The [`km` algorithm](https://github.com/iric-soft/km) [@Software-km] is one of the sofware developed for targeted INDEL calls in RNA-Seq. Calling INDELs from RNA-Seq is challenging and several tools have been published between 2017-2019 to accomplish this task. The `km` algorithm was benchmarked on the AML Leucegene and TCGA-LAML datasets.   
+

@@ -2,6 +2,7 @@
 
 module load STAR
 
+# star_fusion=/home/users/allstaff/quaglieri.a/software/STAR-Fusion-v1.5.0 requirements https://github.com/STAR-Fusion/STAR-Fusion/wiki
 star_fusion=/home/users/allstaff/quaglieri.a/software/STAR-Fusion-v1.4.0
 genomedir=$1
 chim_junction_dir=$2
@@ -20,7 +21,7 @@ else
 
   ${star_fusion}/STAR-Fusion \
 	--genome_lib_dir ${genomedir} \
-	-J ${chim_junction_dir}/${sample}Chimeric.out.junction \
+	-J ${chim_junction_dir}/${sample}*Chimeric.out.junction \
 	--CPU $(nproc) \
 	--output_dir ${outdir}/${sample}
 

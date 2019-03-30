@@ -1,0 +1,43 @@
+# List modules
+print("Modules loaded")
+system("module list")
+
+# module load STAR
+
+# Run STar
+
+star_index="star_index_GRCh38_99"
+star_fusion="star_fusion_datasets_NCBI"
+assembly="GRCh38"
+# Genome directories
+genomedir="/home/users/allstaff/quaglieri.a/PHD_project/GEO_Leucegene_data/genomes"
+genome_fasta=file.path(genomedir,"hg38/NCBI/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa")
+gtf=file.path(genomedir,"hg38/NCBI/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf")
+star_genome100=file.path(genomedir,star_index)
+star_fusion_data_ncbi=file.path(genomedir,star_fusion)
+
+fastqdir="/wehisan/general/user_managed/grpu_majewski_3/AML_RNA/cbf_aml_agrf/fastq"
+amldir="/wehisan/general/user_managed/grpu_majewski_3/AML_RNA/cbf_aml_agrf"
+star_1pass="~"
+star_2pass="~"
+star_merged="~"
+# Sample names
+samplein_runs_trimmed=list.fileS( path = file.path(fastqdir,"fastq_trimmed"), pattern = "1P.fastq")
+
+
+run_Star(genome_index = star_genome100,
+                      fastqfiles = c(file.path(fastqdir,"fastq_trimmed/9.ADE07KRH.PB.Dia_CAH6NANXX_CGGCTATG-TATAGCCT_L008_1P.fastq.gz"),
+                      	file.path(fastqdir,"fastq_trimmed/9.ADE07KRH.PB.Dia_CAH6NANXX_CGGCTATG-TATAGCCT_L008_2P.fastq.gz")),
+                      sampleName = "9.ADE07KRH.PB.Dia",
+                      outdir = "~",
+                      sjfile = gtf,
+                      STARmode = "2PassBasic",
+                      Rrepos =  "https://cloud.r-project.org",
+                      RlibPath = "/wehisan/home/allstaff/q/quaglieri.a/R/x86_64-pc-linux-gnu-library/3.4")
+
+
+
+
+
+
+

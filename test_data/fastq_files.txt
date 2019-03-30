@@ -1,8 +1,0 @@
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608907_2.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608903_2.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608610_1.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608607_2.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608903_1.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608907_1.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608607_1.fastq.gz
-/wehisan/general/user_managed/grpu_majewski_3/quaglieri.a/RNA-seq-variant-calling/example_script/test_data/SRR1608610_2.fastq.gz

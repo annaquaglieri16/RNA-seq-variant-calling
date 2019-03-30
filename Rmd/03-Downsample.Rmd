@@ -1,0 +1,9 @@
+# Downsampling FASTQ files {#ch:downsample}
+
+The [seqtk](https://github.com/lh3/seqtk) tool can be used to downsample an exact number of reads from paired end (PE) FASTQ files. The following is an example run
+
+```{bash eval=FALSE}
+path-to-seqtk-folder/seqtk sample -s100 test_data/SRR1608610_1.fastq.gz 10000 > test_data/sub_SRR1608610_1.fq
+path-to-seqtk-folder/seqtk sample -s100 test_data/SRR1608610_2.fastq.gz 10000 > test_data/sub_SRR1608610_2.fq
+```
+

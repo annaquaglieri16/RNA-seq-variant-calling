@@ -1,0 +1,48 @@
+---
+title: "From FASTQ files to Variant Calling for RNA-Seq"
+author: "Anna Quaglieri"
+site: bookdown::bookdown_site
+linkcolor: magenta
+urlcolor: magenta
+link-citations: yes
+bibliography: biblio.bib
+---
+
+```{r setup, include=FALSE,echo=FALSE}
+options("knitr.graphics.auto_pdf" = TRUE)
+library(knitr)
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.path = 'figure/', 
+                      fig.align = 'center', fig.show = 'hold',
+                      out.width = ifelse(knitr::is_html_output(), "100%", "\\textwidth"),
+  cache.path = ifelse(knitr::is_html_output(), 'cache-gitbook/', 'cache-pdfbook/'))
+```
+
+# Setup {#ch:setup}
+
+This is an example workflow from `SRR` files to Variant calling using modular functions written in `R` and `bash`.
+
+```{bash engine=bash,eval=FALSE}
+git clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git
+```
+
+All the functions used for the variant calling and downsampling pipeline are inside the `./functions` folder. 
+
+* If you already have the `FASTQ` files and you don't need to randomly downsample your samples go to Section \@ref(ch:align)
+* If you already have the `FASTQ` files and you want to randomly downsample your samples to a fix number of reads go to Section \@ref(ch:downsample)
+* If you already have the `BAM` files and you want to call variants go to Section \@ref(ch:gatk-prep)
+
+## Disclaimer
+
+The following workflow was built in a modular way and it is not wrapped up into a pipeline manager. I aknowledge the limitations and non-user-friendliness of some steps. However, it offers a comprehensive view of several tools and steps used for variant calling in RNA-Seq as well as general tools used in any bioinformatics pipeline.    
+
+
+
+
+
+
+
+
