@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>From FASTQ files to Variant Calling for RNA-Seq</title>
-  <meta name="description" content="From FASTQ files to Variant Calling for RNA-Seq">
+  <title>12 Analyse time-course mutations with superFreq | From FASTQ files to Variant Calling for RNA-Seq</title>
+  <meta name="description" content="12 Analyse time-course mutations with superFreq | From FASTQ files to Variant Calling for RNA-Seq">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="From FASTQ files to Variant Calling for RNA-Seq" />
+  <meta property="og:title" content="12 Analyse time-course mutations with superFreq | From FASTQ files to Variant Calling for RNA-Seq" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="From FASTQ files to Variant Calling for RNA-Seq" />
+  <meta name="twitter:title" content="12 Analyse time-course mutations with superFreq | From FASTQ files to Variant Calling for RNA-Seq" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
+<link rel="prev" href="11-ch-fusions.html">
 
-<link rel="next" href="2-ch-download.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -154,24 +154,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">From FASTQ files to Variant Calling for RNA-Seq</h1>
-<p class="author"><em>Anna Quaglieri</em></p>
-</div>
-<div id="ch:setup" class="section level1">
-<h1><span class="header-section-number">1</span> Setup</h1>
-<p>This is an example workflow from <code>SRR</code> files to Variant calling using modular functions written in <code>R</code> and <code>bash</code>.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git</code></pre></div>
-<p>All the functions used for the variant calling and downsampling pipeline are inside the <code>./functions</code> folder.</p>
-<ul>
-<li>If you already have the <code>FASTQ</code> files and you don’t need to randomly downsample your samples go to Section <a href="6-ch-align.html#ch:align">6</a></li>
-<li>If you already have the <code>FASTQ</code> files and you want to randomly downsample your samples to a fix number of reads go to Section <a href="3-ch-downsample.html#ch:downsample">3</a></li>
-<li>If you already have the <code>BAM</code> files and you want to call variants go to Section <a href="8-ch-gatk-prep.html#ch:gatk-prep">8</a></li>
-</ul>
-<div id="disclaimer" class="section level2">
-<h2><span class="header-section-number">1.1</span> Disclaimer</h2>
-<p>The following workflow was built in a modular way and it is not wrapped up into a pipeline manager. I aknowledge the limitations and non-user-friendliness of some steps. However, it offers a comprehensive view of several tools and steps used for variant calling in RNA-Seq as well as general tools used in any bioinformatics pipeline.</p>
+<div id="ch:superfreq" class="section level1">
+<h1><span class="header-section-number">12</span> Analyse time-course mutations with superFreq</h1>
+<div id="sec:mutexplore" class="section level2">
+<h2><span class="header-section-number">12.1</span> Explore mutations with the <code>Mutexplore</code> Shiny app</h2>
 
+<div id="refs" class="references">
+<div id="ref-Andrews2010-fk">
+<p>Andrews, Simon. 2010. “FastQC: A Quality Control Tool for High Throughput Sequence Data.”</p>
+</div>
+<div id="ref-Software-km">
+<p>Eric Olivier Audemard, Patrick Gendron, Vincent-Philippe Lavallée, Josée Hébert, Guy Sauvageau, Sébastien Lemieux. 2018. “Targeted Variant Detection in Leukemia Using Unaligned RNA-Seq Reads.” <em>bioRXiv</em>, April.</p>
+</div>
+<div id="ref-Ewels2016-rc">
+<p>Ewels, Philip, Måns Magnusson, Sverker Lundin, and Max Käller. 2016. “MultiQC: Summarize Analysis Results for Multiple Tools and Samples in a Single Report.” <em>Bioinformatics</em> 32 (19): 3047–8.</p>
+</div>
+<div id="ref-Lavallee2016-sf">
+<p>Lavallée, Vincent-Philippe, Sébastien Lemieux, Geneviève Boucher, Patrick Gendron, Isabel Boivin, Richard Neil Armstrong, Guy Sauvageau, and Josée Hébert. 2016. “RNA-sequencing Analysis of Core Binding Factor AML Identifies Recurrent Zbtb7a Mutations and Defines Runx1-Cbfa2t3 Fusion Signature.” <em>Blood</em>, March.</p>
+</div>
+<div id="ref-Tange_undated-th">
+<p>Tange, Ole. n.d. “GNU Parallel: The Command-Line Power Tool.”</p>
+</div>
+</div>
 </div>
 </div>
             </section>
@@ -179,8 +183,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
+<a href="11-ch-fusions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="2-ch-download.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

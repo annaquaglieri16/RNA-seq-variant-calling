@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>6 Alignement, Read Groups, Mark duplicates | From FASTQ files to Variant Calling for RNA-Seq</title>
+  <meta name="description" content="6 Alignement, Read Groups, Mark duplicates | From FASTQ files to Variant Calling for RNA-Seq">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="6 Alignement, Read Groups, Mark duplicates | From FASTQ files to Variant Calling for RNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Alignement, Read Groups, Mark duplicates | From FASTQ files to Variant Calling for RNA-Seq" />
+  
+  
+  
+
+<meta name="author" content="Anna Quaglieri">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="5-ch-fastqc.html">
+<link rel="next" href="7-ch-merge-bamfiles.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#disclaimer"><i class="fa fa-check"></i><b>1.1</b> Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-ch-download.html"><a href="2-ch-download.html"><i class="fa fa-check"></i><b>2</b> Download RNA-Seq data from GEO</a><ul>
+<li class="chapter" data-level="2.1" data-path="2-ch-download.html"><a href="2-ch-download.html#get-srx-sample-names"><i class="fa fa-check"></i><b>2.1</b> Get SRX sample names</a></li>
+<li class="chapter" data-level="2.2" data-path="2-ch-download.html"><a href="2-ch-download.html#create-ncbi-query"><i class="fa fa-check"></i><b>2.2</b> Create NCBI query</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="3-ch-downsample.html"><a href="3-ch-downsample.html"><i class="fa fa-check"></i><b>3</b> Downsampling FASTQ files</a></li>
+<li class="chapter" data-level="4" data-path="4-ch-input-pipe.html"><a href="4-ch-input-pipe.html"><i class="fa fa-check"></i><b>4</b> Define files and programs needed for the pipeline</a></li>
+<li class="chapter" data-level="5" data-path="5-ch-fastqc.html"><a href="5-ch-fastqc.html"><i class="fa fa-check"></i><b>5</b> FASTQC and adapters trimming</a><ul>
+<li class="chapter" data-level="5.1" data-path="5-ch-fastqc.html"><a href="5-ch-fastqc.html#parallelise-your-fastqc"><i class="fa fa-check"></i><b>5.1</b> Parallelise your <code>FASTQC</code></a></li>
+<li class="chapter" data-level="5.2" data-path="5-ch-fastqc.html"><a href="5-ch-fastqc.html#summarise-reports-with-multiqc"><i class="fa fa-check"></i><b>5.2</b> Summarise reports with <code>MultiQC</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="6-ch-align.html"><a href="6-ch-align.html"><i class="fa fa-check"></i><b>6</b> Alignement, Read Groups, Mark duplicates</a><ul>
+<li class="chapter" data-level="6.1" data-path="6-ch-align.html"><a href="6-ch-align.html#create-star-index"><i class="fa fa-check"></i><b>6.1</b> Create <code>STAR</code> index</a></li>
+<li class="chapter" data-level="6.2" data-path="6-ch-align.html"><a href="6-ch-align.html#star-1pass"><i class="fa fa-check"></i><b>6.2</b> STAR-1pass</a></li>
+<li class="chapter" data-level="6.3" data-path="6-ch-align.html"><a href="6-ch-align.html#star-2pass"><i class="fa fa-check"></i><b>6.3</b> STAR-2pass</a></li>
+<li class="chapter" data-level="6.4" data-path="6-ch-align.html"><a href="6-ch-align.html#sec:post-align"><i class="fa fa-check"></i><b>6.4</b> Details about post-alignment functions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="7-ch-merge-bamfiles.html"><a href="7-ch-merge-bamfiles.html"><i class="fa fa-check"></i><b>7</b> Merge bamfiles</a></li>
+<li class="chapter" data-level="8" data-path="8-ch-gatk-prep.html"><a href="8-ch-gatk-prep.html"><i class="fa fa-check"></i><b>8</b> GATK pre-processing</a><ul>
+<li class="chapter" data-level="8.1" data-path="8-ch-gatk-prep.html"><a href="8-ch-gatk-prep.html#splitncigarreads"><i class="fa fa-check"></i><b>8.1</b> SplitNCigarReads</a></li>
+<li class="chapter" data-level="8.2" data-path="8-ch-gatk-prep.html"><a href="8-ch-gatk-prep.html#base-recalibration"><i class="fa fa-check"></i><b>8.2</b> Base recalibration</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html"><i class="fa fa-check"></i><b>9</b> Variant calling</a><ul>
+<li class="chapter" data-level="9.1" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#call-with-mutect2"><i class="fa fa-check"></i><b>9.1</b> Call with MuTect2</a></li>
+<li class="chapter" data-level="9.2" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#call-with-samtools-varscan2"><i class="fa fa-check"></i><b>9.2</b> Call with Samtools + VarScan2</a></li>
+<li class="chapter" data-level="9.3" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#call-with-vardict"><i class="fa fa-check"></i><b>9.3</b> Call with VarDict</a></li>
+<li class="chapter" data-level="9.4" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#annotate-variants"><i class="fa fa-check"></i><b>9.4</b> Annotate variants</a></li>
+<li class="chapter" data-level="9.5" data-path="9-ch-call-variants.html"><a href="9-ch-call-variants.html#indels-km"><i class="fa fa-check"></i><b>9.5</b> Targeted INDEL calling with <code>km</code> algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-ch-variants-st.html"><a href="10-ch-variants-st.html"><i class="fa fa-check"></i><b>10</b> Standardise output of variants</a><ul>
+<li class="chapter" data-level="10.1" data-path="10-ch-variants-st.html"><a href="10-ch-variants-st.html#superfreq-to-combine-time-course-mutations-for-one-patient"><i class="fa fa-check"></i><b>10.1</b> superFreq to combine time-course mutations for one patient</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-ch-fusions.html"><a href="11-ch-fusions.html"><i class="fa fa-check"></i><b>11</b> Call fusions with <code>STAR-Fusion</code> and <code>FusionInspector</code></a></li>
+<li class="chapter" data-level="12" data-path="12-ch-superfreq.html"><a href="12-ch-superfreq.html"><i class="fa fa-check"></i><b>12</b> Analyse time-course mutations with superFreq</a><ul>
+<li class="chapter" data-level="12.1" data-path="12-ch-superfreq.html"><a href="12-ch-superfreq.html#sec:mutexplore"><i class="fa fa-check"></i><b>12.1</b> Explore mutations with the <code>Mutexplore</code> Shiny app</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">From FASTQ files to Variant Calling for RNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:align" class="section level1">
+<h1><span class="header-section-number">6</span> Alignement, Read Groups, Mark duplicates</h1>
+<p>Once the <em>fastq</em> files are ready to be processed we can align them with <em>STAR</em>. <a href="http://subread.sourceforge.net/">Subread/Rsubread</a> is another widely used RNA-Seq aligner. The reason why I initially choose <em>STAR</em> over <em>Subread</em> was simply due to the fact that <em>STAR</em> can generate specific output for chimeric reads that can be directly used with <a href="https://github.com/STAR-Fusion/STAR-Fusion/wiki">STAR-Fusion</a> to analyse gene fusions (see more in Section @(ch:fusions)). Also, <em>STAR</em> is suggested in the the <a href="https://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail">GATK Best Practices to call variants in RNA-Seq</a>.</p>
+<div id="create-star-index" class="section level2">
+<h2><span class="header-section-number">6.1</span> Create <code>STAR</code> index</h2>
+<p>STAR requires to build an index for the reference genome that will be used in the analignment and fusion calling step.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Iniaitlise Genome directory where to save STAR Index and STAR Fusion Index folders</span>
+<span class="va">star_genome100=</span>path_to_genome_directory/star_index_hg19_99
+<span class="fu">mkdir</span> -p <span class="va">${star_genome100}</span></code></pre></div>
+<p>To build the <em>STAR index</em> one needs to provide the FASTA file for the reference genome used, a GTF file with information aabout the annotation and STAR also require an an extra parameter called <code>sjdbOverhang</code> which is usually set to be <em>(read length - 1)</em>. See <code>STAR</code> documentation for <strong>Generating genome indexes</strong> in the <a href="https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf">STAR manual</a> - 99 is (read length - 1) relative to the samples that I was working with.</p>
+<p>Below is a wrapper for <code>STAR</code> call to build an index.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">outpud_dir=</span>../results
+<span class="ex">../functions/build_STAR_index.sh</span> <span class="va">$genome_fasta_path</span> <span class="va">$gtf_path</span> <span class="va">$outpud_dir</span> <span class="st">&quot;hg19&quot;</span> 99</code></pre></div>
+</div>
+<div id="star-1pass" class="section level2">
+<h2><span class="header-section-number">6.2</span> STAR-1pass</h2>
+<p>If you are working with a cohort of bamfiles, STAR developer suggests to run the alignment in a two-pass mode. This consists of first aligning all the bamfiles, collecting the <em>splice junctions</em> as output of STAR and realign all the bamfiles with this new information. For more details about 1-pass, 2-pass-multi and 2-pass-single see Section 8 of the <a href="https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf">STAR documentation</a>. In my pipeline I normally use the 2-pass multi strategy as below.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">FQ1=</span>../data/SRR1608907_1.fastq.gz
+<span class="va">FQ2=</span>../data/SRR1608907_2.fastq.gz
+<span class="va">star_genome100=</span>path_to_genome_directory/star_index_hg19_99
+
+<span class="ex">Rscript</span> ../functions/run_STAR.R --genome_index <span class="va">$star_index_hg19_99</span> \
+--fastqfiles <span class="va">$FQ1</span>,<span class="va">$FQ2</span> \
+--sampleName SRR1608907 \
+--outdir ../results/star_1pass \
+--STARmode <span class="st">&quot;1Pass&quot;</span> </code></pre></div>
+<p>The <code>R</code> function above is a wrapper for the <code>STAR</code> call below:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Version STAR/2.5</span>
+
+<span class="ex">STAR</span> --genomeDir path_to_star_index_hg19 \
+--readFilesIn <span class="va">$FQ1</span> <span class="va">$FQ2</span> --runThreadN 27 --chimSegmentMin 10 --readFilesCommand zcat --alignSJoverhangMin 8 --outBAMcompression 10 --alignSJDBoverhangMin 1 --limitBAMsortRAM 85741557872 --outFilterMismatchNmax 999 --alignIntronMin 20 --alignIntronMax 200000 --alignMatesGapMax 20000 --outFileNamePrefix path_to_star_1pass/SampleName --outSAMtype BAM SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 15</code></pre></div>
+<p>To see all the arguments available:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">Rscript</span> ../functions/run_STAR.R --help</code></pre></div>
+<p>After running STAR on all the fastq files available we can collect all the splice junctions from the first pass and use them for the second pass.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># concatenate splice junctions from all samples from ran in pass1</span>
+<span class="fu">cat</span> ../results/star_1pass/*SJ.out.tab <span class="op">&gt;</span> ../results/star_1pass/combined_sj.out.tab
+<span class="co"># Dobin suggests to remove chrm cause they are usually False positives</span>
+<span class="fu">awk</span> <span class="st">&#39;!/chrM/&#39;</span> ../results/star_1pass/combined_sj.out.tab <span class="op">&gt;</span> ../results/star_1pass/combined_sj_nochrM.out.tab</code></pre></div>
+<p>Again, for quality check, have a look at the amazing alignment summary enabled by <a href="http://multiqc.info/">MultiQC</a>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">multiqc</span> ../results/star_1pass --interactive -n <span class="st">&quot;STAR_1passQC&quot;</span> -o ../results</code></pre></div>
+</div>
+<div id="star-2pass" class="section level2">
+<h2><span class="header-section-number">6.3</span> STAR-2pass</h2>
+<p>The second pass alignment is exactly the same as the first one with only a few differences:</p>
+<ul>
+<li>the <em>sjfile</em> input created combining the splice junctions from the first pass</li>
+<li>STAR is run with the option of output chimeric reads switched on. This will allow fusion analysis.</li>
+</ul>
+<p>The ouput of STAR is a bamfile already sorted by coordinate with the suffix <code>Aligned.sortedByCoord.out.bam</code>. At this stage we can also run two more steps <code>post_align_qc1.sh</code> and <code>post_align_qc2.sh</code>, discussed below.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">FQ1=</span>../data/SRR1608907_1.fastq.gz
+<span class="va">FQ2=</span>../data/SRR1608907_2.fastq.gz
+<span class="va">star_genome100=</span>path_to_genome_directory/star_index_hg19_99
+
+<span class="ex">Rscript</span> ../functions/run_STAR.R \
+--genome_index <span class="va">$star_index_hg19_99</span> \
+--fastqfiles <span class="va">$FQ1</span>,<span class="va">$FQ2</span> \
+--sampleName SRR1608907 \
+--outdir ../results/star_2pass --STARmode <span class="st">&quot;2PassMulti&quot;</span> \
+--sjfile ../results/star_1pass/combined_sj_nochrM.out.tab
+
+<span class="co"># Run featurecounts and collect fragment sizes for QC</span>
+<span class="ex">../functions/post_align_qc1.sh</span> \
+path_to_genome.fa \
+path_to_genes.gtf \
+../results/star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
+SRR1608907  # sample name
+
+<span class="co"># Pre-process bamfile (add Read groups etc..)</span>
+<span class="ex">../functions/post_align_qc2.sh</span> <span class="dt">\ </span>../results/star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
+SRR1608907 \
+path_to_genome.fa \
+SRR1608907 </code></pre></div>
+</div>
+<div id="sec:post-align" class="section level2">
+<h2><span class="header-section-number">6.4</span> Details about post-alignment functions</h2>
+<ul>
+<li><code>post_align_qc1.sh</code> is optional:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Runs <a href="http://bioinf.wehi.edu.au/featureCounts/">featureCounts</a> to get gene counts and compute PCA to evaulate the concordance between bamfiles sequenced on different lanes. This allows a QC before merging the different bamfiles into a single one.</li>
+<li>Runs <a href="https://broadinstitute.github.io/picard/command-line-overview.html">CollectMultipleMetrics</a> to collect the fragment distribution of the bamfiles (only possible with PE reads). This is also a good QC to check that the fragment distribution of bamfiles on different lanes is the same.</li>
+</ol>
+<ul>
+<li><code>post_align_qc2.sh</code> contains necessary pre-prcessing steps:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Marks PCR duplicates (using <a href="http://lomereiter.github.io/sambamba/docs/sambamba-markdup.html">sambamba markdup</a>)</li>
+<li>Add Read Groups to single runs before merging bamfiles (using <a href="https://broadinstitute.github.io/picard/command-line-overview.html">AddOrReplaceReadGroups</a>). Even if files do not need to be merges, <code>GATK</code> requires read groups to be added bamfiles.</li>
+<li>Run <a href="https://broadinstitute.github.io/picard/command-line-overview.html">ValidateSamFile</a> to check for errors in the final bamfile.</li>
+</ol>
+<p>In order, its arguments are:</p>
+<ol style="list-style-type: decimal">
+<li>Path to <strong>aligned bamfile</strong>;</li>
+<li><code>SampleName</code>. This is the name of the sample applied to the <code>RGID</code> and <code>RGPU</code> fields below.</li>
+<li><code>SampleName of the run</code>. If a sample was sequenced across different lanes you need to set lane-specific read groups to each separate bamfile (e.g. SampleName_L1, SampleName_L2). This sample name will be used for the fields <code>RGLB</code> and <code>RGSM</code> in the <code>AddOrReplaceReadGroups</code> groups below. See Chapter @(ch:merge-bamfiles) for merging bamfiles.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Picard tool function to add read groups to a bamfile</span>
+<span class="ex">AddOrReplaceReadGroups</span> \
+        I= ./star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
+        O= ./star_2pass/SRR1608907.Aligned.sortedByCoord.out.RG.bam \
+        RGID=SRR1608907 \
+        RGPU=SRR1608907 \
+        RGLB=SRR1608907_L1 \
+        RGPL=<span class="st">&quot;illumina&quot;</span> \
+        RGSM=SRR1608907_L1</code></pre></div>
+<p>After running <code>post_align_qc2.sh</code> a file with the suffix <code>Aligned.reorderedDupl.rg.bam</code> will be created where read groups are added and PCR duplicated reads marked.</p>
+<p>This time <em>MultiQC</em> will give us a summary output also of the fragment distributions and gene counts if the output files are stored within the <code>star_2pass</code> folder.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">multiqc</span> ../results/star_2pass --interactive -n <span class="st">&quot;STAR_2passQC&quot;</span> -o ../results</code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="5-ch-fastqc.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="7-ch-merge-bamfiles.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["RNA-variant-book.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
