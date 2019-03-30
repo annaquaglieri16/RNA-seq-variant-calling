@@ -7,6 +7,7 @@ bookdown::gitbook:
     toc:
       collapse: none
     download: ["pdf"]
+    edit: https://github.com/annaquaglieri16/RNA-seq-variant-calling/tree/master/%s
   sharing: no
 bookdown::pdf_book:
   dev: "pdf"
