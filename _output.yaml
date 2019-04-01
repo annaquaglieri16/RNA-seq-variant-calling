@@ -6,6 +6,10 @@ bookdown::gitbook:
   config:
     toc:
       collapse: none
+      before: |
+        <li><strong><a href="./">RNA-Seq variant calling</a></strong></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Proudly published with bookdown</a></li>
     download: ["pdf"]
     edit: https://github.com/annaquaglieri16/RNA-seq-variant-calling/tree/master/%s
   sharing: no
