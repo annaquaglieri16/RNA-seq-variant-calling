@@ -4,7 +4,6 @@
 # Load necessary packages
 #########################
 
-library(optparse)
 
 ###############################################################
 # Parse annotated VCF and allow to combine VarScan with Mutect2

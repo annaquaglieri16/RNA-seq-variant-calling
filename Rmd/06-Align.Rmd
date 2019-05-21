@@ -1,10 +1,10 @@
 # Alignement, Read Groups, Mark duplicates {#ch:align}
 
-Once the *fastq* files are ready to be processed we can align them with *STAR*. [Subread/Rsubread](http://subread.sourceforge.net/) is another widely used RNA-Seq aligner. The reason why I initially choose *STAR* over *Subread* was simply due to the fact that *STAR* can generate specific output for chimeric reads that can be directly used with [STAR-Fusion](https://github.com/STAR-Fusion/STAR-Fusion/wiki) to analyse gene fusions (see more in Section \@(ch:fusions)). Also, *STAR* is suggested in the the [GATK Best Practices to call variants in RNA-Seq](https://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail). 
+Once the *fastq* files are ready to be processed we can align them with *STAR*. [Subread/Rsubread](http://subread.sourceforge.net/) is another widely used RNA-Seq aligner. The reason why I initially choose *STAR* over *Subread* was simply due to the fact that *STAR* can generate specific output for chimeric reads that can be directly used with [STAR-Fusion](https://github.com/STAR-Fusion/STAR-Fusion/wiki) to analyse gene fusions (see more in Section \@ref(ch:fusions)). Also, *STAR* is suggested in the the [GATK Best Practices to call variants in RNA-Seq](https://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail). 
 
 ## Create `STAR` index 
 
-STAR requires to build an index for the reference genome that will be used in the analignment and fusion calling step.
+STAR requires an index for the reference genome that will be used for the alignment and fusion calling steps. Below, I show my way of creating the index!
 
 ```{bash eval=FALSE}
 # Iniaitlise Genome directory where to save STAR Index and STAR Fusion Index folders
@@ -13,20 +13,20 @@ mkdir -p ${star_genome100}
 ```
 
 
-To build the *STAR index* one needs to provide the FASTA file for the reference genome used, a GTF file with information aabout the annotation and STAR also require an an extra parameter called `sjdbOverhang` which is usually set to be *(read length - 1)*. See `STAR` documentation for **Generating genome indexes** in the [STAR manual](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
+To build the *STAR index* one needs to provide the FASTA file for the reference genome used, a GTF file with information aabout the annotation and STAR also require an extra parameter called `sjdbOverhang` which is usually set to be *(read length - 1)*. See `STAR` documentation for **Generating genome indexes** in the [STAR manual](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
 - 99 is (read length - 1) relative to the samples that I was working with.
 
-Below is a wrapper for `STAR` call to build an index. 
+Below is a wrapper for the `STAR` call to build an index. You can find the function in the `functions` folder.
 
 ```{bash eval=FALSE}
-outpud_dir=../results
-../functions/build_STAR_index.sh $genome_fasta_path $gtf_path $outpud_dir "hg19" 99
+outpud_dir=./results
+./functions/build_STAR_index.sh $genome_fasta_path $gtf_path $outpud_dir "hg19" 99
 ```
 
 
 ## STAR-1pass
 
-If you are working with a cohort of bamfiles, STAR developer suggests to run the alignment in a two-pass mode. This consists of first aligning all the bamfiles, collecting the *splice junctions* as output of STAR and realign all the bamfiles with this new information. For more details about 1-pass, 2-pass-multi and 2-pass-single see Section 8 of the [STAR documentation](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf). In my pipeline I normally use the 2-pass multi strategy as below.
+If you are working with a cohort of bamfiles, the developer of STAR suggests running the alignment in a two-pass mode. This consists in first aligning all the bamfiles with STAR, then collecting the *splice junctions* output of STAR and finally realigning all the bamfiles with this new information. For more details about STAR 1-pass, 2-pass-multi and 2-pass-single modes see Section 8 of the [STAR documentation](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf). In my pipeline I normally use the 2-pass multi mode which consists of a first star 1-pass and a subsequent 2-pass multi run, as shown below.
 
 ```{bash eval=FALSE, echo=FALSE}
 # save list of fastq files into a variable
@@ -99,14 +99,14 @@ done
 
 
 ```{bash eval=FALSE}
-FQ1=../data/SRR1608907_1.fastq.gz
-FQ2=../data/SRR1608907_2.fastq.gz
+FQ1=./data/SRR1608907_1.fastq.gz
+FQ2=./data/SRR1608907_2.fastq.gz
 star_genome100=path_to_genome_directory/star_index_hg19_99
 
-Rscript ../functions/run_STAR.R --genome_index $star_index_hg19_99 \
+Rscript ./functions/run_STAR.R --genome_index $star_index_hg19_99 \
 --fastqfiles $FQ1,$FQ2 \
 --sampleName SRR1608907 \
---outdir ../results/star_1pass \
+--outdir ./results/star_1pass \
 --STARmode "1Pass" 
 ```
 
@@ -114,7 +114,6 @@ The `R` function above is a wrapper for the `STAR` call below:
 
 ```{bash eval=FALSE}
 # Version STAR/2.5
-
 STAR --genomeDir path_to_star_index_hg19 \
 --readFilesIn $FQ1 $FQ2 --runThreadN 27 --chimSegmentMin 10 --readFilesCommand zcat --alignSJoverhangMin 8 --outBAMcompression 10 --alignSJDBoverhangMin 1 --limitBAMsortRAM 85741557872 --outFilterMismatchNmax 999 --alignIntronMin 20 --alignIntronMax 200000 --alignMatesGapMax 20000 --outFileNamePrefix path_to_star_1pass/SampleName --outSAMtype BAM SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 15
 ```
@@ -122,22 +121,53 @@ STAR --genomeDir path_to_star_index_hg19 \
 To see all the arguments available:
 
 ```{bash eval=FALSE}
-Rscript ../functions/run_STAR.R --help
+Rscript ./functions/run_STAR.R --help
+```
+
+````
+Options:
+        --genome_index=GENOME_INDEX
+                Path to the folder with the reference genome index.
+
+        --fastqfiles=FASTQFILES
+                One or two comma separated full paths to the gzipped fastq files.
+ If only one file is given STAR will consider it a SE library.
+
+        --sampleName=CHARACTER
+                Name for output files. If not specified: --fastqfiles without directory and extention.
+
+        --outdir=CHARACTER
+                Path to output directory. If not specified: ../STAR_align.
+
+        --sjfile=CHARACTER
+                Path to output splije junction file from STAR 1-pass. Required if --STARmode '2PassMulti'.
+
+        --STARmode=CHARACTER
+                One of: '2PassMulti', '2PassBasic', '1Pass'. For more information see the STAR manual for STAR 2-pass mode (Section 8)
+
+        --Rrepos=RREPOS
+                Redirection to server worldwide. Need the default when installing packages without setting a mirror.
+
+        --RlibPath=RLIBPATH
+                R path to install R packages.
+
+        -h, --help
+                Show this help message and exit
 ```
 
 After running STAR on all the fastq files available we can collect all the splice junctions from the first pass and use them for the second pass.
 
 ```{bash eval=FALSE}
 # concatenate splice junctions from all samples from ran in pass1
-cat ../results/star_1pass/*SJ.out.tab > ../results/star_1pass/combined_sj.out.tab
+cat ./results/star_1pass/*SJ.out.tab > ./results/star_1pass/combined_sj.out.tab
 # Dobin suggests to remove chrm cause they are usually False positives
-awk '!/chrM/' ../results/star_1pass/combined_sj.out.tab > ../results/star_1pass/combined_sj_nochrM.out.tab
+awk '!/chrM/' ./results/star_1pass/combined_sj.out.tab > ./results/star_1pass/combined_sj_nochrM.out.tab
 ```
 
 Again, for quality check, have a look at the amazing alignment summary enabled by [MultiQC](http://multiqc.info/).
 
 ```{bash eval=FALSE}
-multiqc ../results/star_1pass --interactive -n "STAR_1passQC" -o ../results
+multiqc ./results/star_1pass --interactive -n "STAR_1passQC" -o ../results
 ```
 
 
@@ -145,32 +175,38 @@ multiqc ../results/star_1pass --interactive -n "STAR_1passQC" -o ../results
 
 The second pass alignment is exactly the same as the first one with only a few differences:
 
-- the *sjfile* input created combining the splice junctions from the first pass
-- STAR is run with the option of output chimeric reads switched on. This will allow fusion analysis.
+- the *sjfile* in input. This was created combining the splice junctions from the first pass above.
+- STAR is the run with the chimeric reads option switched on, which is necessary if you need to analyse fusion genes.
 
-The ouput of STAR is a bamfile already sorted by coordinate with the suffix `Aligned.sortedByCoord.out.bam`. At this stage we can also run two more steps `post_align_qc1.sh` and `post_align_qc2.sh`, discussed below.
+The ouput of STAR will be a bamfile already sorted by coordinate with the suffix `Aligned.sortedByCoord.out.bam`. 
+
 
 ```{bash eval=FALSE}
-FQ1=../data/SRR1608907_1.fastq.gz
-FQ2=../data/SRR1608907_2.fastq.gz
+FQ1=./data/SRR1608907_1.fastq.gz
+FQ2=./data/SRR1608907_2.fastq.gz
 star_genome100=path_to_genome_directory/star_index_hg19_99
 
 Rscript ../functions/run_STAR.R \
 --genome_index $star_index_hg19_99 \
 --fastqfiles $FQ1,$FQ2 \
 --sampleName SRR1608907 \
---outdir ../results/star_2pass --STARmode "2PassMulti" \
---sjfile ../results/star_1pass/combined_sj_nochrM.out.tab
+--outdir ./results/star_2pass --STARmode "2PassMulti" \
+--sjfile ./results/star_1pass/combined_sj_nochrM.out.tab
 
+```
+
+At this stage we can also run two more steps `post_align_qc1.sh` and `post_align_qc2.sh`, discussed below.
+
+```{bash eval=FALSE}
 # Run featurecounts and collect fragment sizes for QC
-../functions/post_align_qc1.sh \
+./functions/post_align_qc1.sh \
 path_to_genome.fa \
 path_to_genes.gtf \
-../results/star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
+./results/star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
 SRR1608907  # sample name
 
 # Pre-process bamfile (add Read groups etc..)
-../functions/post_align_qc2.sh \ ../results/star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
+./functions/post_align_qc2.sh \ ./results/star_2pass/SRR1608907.Aligned.sortedByCoord.out.bam \
 SRR1608907 \
 path_to_genome.fa \
 SRR1608907 
@@ -187,10 +223,10 @@ SRR1608907
 * `post_align_qc2.sh` contains necessary pre-prcessing steps:
 
   1. Marks PCR duplicates (using [sambamba markdup](http://lomereiter.github.io/sambamba/docs/sambamba-markdup.html))
-  2. Add Read Groups to single runs before merging bamfiles (using [AddOrReplaceReadGroups](https://broadinstitute.github.io/picard/command-line-overview.html)). Even if files do not need to be merges, `GATK` requires read groups to be added bamfiles.
+  2. Add Read Groups to single runs before merging bamfiles (using [AddOrReplaceReadGroups](https://broadinstitute.github.io/picard/command-line-overview.html)). Even if files do not need to be merges across lanes, `GATK` requires read groups to be added to bamfiles.
   3. Run [ValidateSamFile](https://broadinstitute.github.io/picard/command-line-overview.html) to check for errors in the final bamfile.
 
-In order, its arguments are:
+In order, `post_align_qc2.sh` arguments are:
   
   1. Path to **aligned bamfile**;
   2. `SampleName`. This is the name of the sample applied to the `RGID` and `RGPU` fields below.
@@ -253,8 +289,11 @@ done
 
 ```
 
-This time *MultiQC* will give us a summary output also of the fragment distributions and gene counts if the output files are stored within the `star_2pass` folder.
+This time *MultiQC* will give us a summary output also of the fragment distributions and gene counts if all the output files are stored within the `star_2pass` folder.
 
 ```{bash eval=FALSE}
-multiqc ../results/star_2pass --interactive -n "STAR_2passQC" -o ../results
+multiqc ./results/star_2pass --interactive -n "STAR_2passQC" -o ../results
 ```
+
+
+## Add pictures: read group and pipeline
