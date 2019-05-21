@@ -12,6 +12,7 @@ bibliography: biblio.bib
 options("knitr.graphics.auto_pdf" = TRUE)
 library(knitr)
 library(tidyverse)
+library(png)
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
@@ -31,9 +32,19 @@ git clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git
 
 All the functions used for the variant calling and downsampling pipeline are inside the `./functions` folder. 
 
-* If you already have the `FASTQ` files and you don't need to randomly downsample your samples go to Section \@ref(ch:align)
-* If you already have the `FASTQ` files and you want to randomly downsample your samples to a fix number of reads go to Section \@ref(ch:downsample)
-* If you already have the `BAM` files and you want to call variants go to Section \@ref(ch:gatk-prep)
+* If you want to download sample `FASTQ` files or learn how to download `FASTQ` files from GEO go to Section \@ref(ch:download).
+* If you already have the `FASTQ` files and YOU WANT TO randomly downsample your samples to a fix number of reads go to Section \@ref(ch:downsample).
+* If you already have the `FASTQ` files and you don't need to perform quality control or downsampl your files go to Section \@ref(ch:align).
+* If you already have the `BAM` files and you want to call variants go to Section \@ref(ch:gatk-prep).
+
+# Overview
+
+Figure \@ref(fig:overview) below offers an overview of the pipeline that I applied to several of the cancer RNA-Seq samples that I worked with. However, the current book mentions other callers not displayed in the figure. 
+
+```{r overview,eval=TRUE,fig.cap="Overview of the variant calling pipeline that I used used for several cancer RNA-Seq data."}
+img <- png::readPNG("img/general-verview.png")
+grid::grid.raster(img)
+```
 
 ## Disclaimer
 
