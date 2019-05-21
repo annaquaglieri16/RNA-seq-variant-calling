@@ -1,7 +1,7 @@
 # Define files and programs needed for the pipeline {#ch:input-pipe}
 
-* The reference genome **hg19** is used for this analysis.
-* Below are all the programs and versions used
+The reference genome **hg19** is used for this analysis.
+Below are all the programs and versions used
 
 ```{bash eval=FALSE}
 module load STAR/2.5.2
@@ -20,9 +20,9 @@ module load freebayes/1.1.0
 module load picard-tools/2.9.4
 ```
 
-* The genome references and annotations used here have been downloaded from [iGenome website](https://support.illumina.com/sequencing/sequencing_software/igenome.html) 
+The genome references and annotations used here have been downloaded from [iGenome website](https://support.illumina.com/sequencing/sequencing_software/igenome.html) 
 
-Below is an example of how to setup a few line of `bash` to assign directory names. 
+Below is an example of how to setup a few line of `bash script` to assign directory names to variables. 
 
 ```{bash eval=FALSE}
 # Hard link to genome.fa of the reference genome 

@@ -11,19 +11,22 @@ fastqc ../data/SRR1608610_1.fastq.gz --outdir ./data/
 This is just one example to run `fastqc` on several FASTQ files using `parallel` [@Tange_undated-th]. 
 
 ```{bash eval = FALSE}
-find ../data -name "*.fastq.gz" > ../data/fastq_files.txt
-cat ../data/fastq_files.txt | parallel -j 2 "fastqc {} --outdir ../data"
+find ./data -name "*.fastq.gz" > ./data/fastq_files.txt
+cat ./data/fastq_files.txt | parallel -j 2 "fastqc {} --outdir ./data"
 ```
 
 ## Summarise reports with `MultiQC`
 
-I strongly suggest to have a look at [MultiQC](http://multiqc.info/) [@Ewels2016-rc] which allows you to combine together the results of multiple samples into one compact document. You can check the programs whose output is supported by `MultiQC`.
+I strongly suggest to have a look at [MultiQC](http://multiqc.info/) [@Ewels2016-rc] which allows you to combine together the results of multiple samples into one compact document. You can check the programs whose output is supported by `MultiQC` (loads!!).
 
 ```{bash eval = FALSE}
-multiqc ../data/ --interactive -n "FASTQC_summary" -o ../data/
+multiqc ./data/ --interactive -n "FASTQC_summary" -o ./data/
 ```
 
 The `FASTQC` reports offer a variety of measures and one can decide about discarding some samples or doing some adapter trimming if necessary. [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) and [Trim Galore!](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) can be used for this purpose.
 
-I suggest looking at one of my previous analyses around [adapters with STAR and Subread](https://github.com/annaquaglieri16/RNA-Seq-and-adapters--STAR-vs-Subjunc) since adapters can cause serious troubles with `STAR` default settings! Regarding this I strongly suggest to look at the fragment size distribution across samples once you have aligned your fatsq files. Unusual behaviour can help you spot problems with adapters/alignment steps, which I highlighted in this [post](https://github.com/annaquaglieri16/RNA-Seq-and-adapters--STAR-vs-Subjunc). I normally use the [CollectMultipleMetrics](https://broadinstitute.github.io/picard/command-line-overview.html) to extract fragment sizes from PE bamfiles. See Section \@(sec:post-align) for more details.
+
+## Adapter contamination troubles: STAR vs Subread
+
+I suggest looking at one of my previous analyses around [adapters with STAR and Subread](https://github.com/annaquaglieri16/RNA-Seq-and-adapters--STAR-vs-Subjunc) since adapters can cause serious troubles with `STAR` default settings! Regarding this I strongly suggest to look at the fragment size distribution across samples once you have aligned your fatsq files. Unusual behaviour can help you spot problems with adapters/alignment steps, which I highlighted in the post. I normally use the [CollectMultipleMetrics](https://broadinstitute.github.io/picard/command-line-overview.html) to extract fragment sizes from Paired End (PE) bamfiles. See Section \@ref(sec:post-align) for more details.
 

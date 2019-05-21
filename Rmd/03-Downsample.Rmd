@@ -1,9 +1,11 @@
-# Downsampling FASTQ files {#ch:downsample}
+# Downsampling FASTQ or BAM files {#ch:downsample}
 
-The [seqtk](https://github.com/lh3/seqtk) tool can be used to downsample an exact number of reads from paired end (PE) FASTQ files. The following is an example run
+The [seqtk](https://github.com/lh3/seqtk) tool can be used to downsample an exact number of reads from paired end (PE) FASTQ files. The following is an example run where I am downsampling fastq files to 10000 reads. 
 
 ```{bash eval=FALSE}
 path-to-seqtk-folder/seqtk sample -s100 test_data/SRR1608610_1.fastq.gz 10000 > test_data/sub_SRR1608610_1.fq
 path-to-seqtk-folder/seqtk sample -s100 test_data/SRR1608610_2.fastq.gz 10000 > test_data/sub_SRR1608610_2.fq
 ```
 
+
+In some other occasions I have also used the `Picard Tools` function [`DownsampleSam`](https://broadinstitute.github.io/picard/command-line-overview.html#DownsampleSam) [@Institute_undated-qc] which downsample a bamfile at a specified proportion of the initial given reads.  

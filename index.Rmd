@@ -28,6 +28,8 @@ This is an example workflow from `SRR` files to Variant calling using modular fu
 
 ```{bash engine=bash,eval=FALSE}
 git clone git@github.com:annaquaglieri16/RNA-seq-variant-calling.git
+
+cd ./RNA-seq-variant-calling
 ```
 
 All the functions used for the variant calling and downsampling pipeline are inside the `./functions` folder. 

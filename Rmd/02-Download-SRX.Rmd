@@ -1,9 +1,11 @@
 # Download RNA-Seq data from GEO {#ch:download}
 
-We will provide an example on how to download data from GEO using the Leucegene CBF-AML RNS-Seq data uploaded at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642. 
-The first step in dowloading data from GEO is to download the `SRA` files. For that we need to get `SRX` entries which each one corresponds to a sample in the RNA-Seq cohort.
+Here is an example on how to download data from [GEO](https://www.ncbi.nlm.nih.gov/geo/) using the Leucegene CBF-AML RNA-Seq data uploaded at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642. 
+The first step in dowloading data from GEO is to download the `SRA` files. For that, we need to first get the `SRX` entries where each one corresponds to a specific sample in the RNA-Seq cohort. Usually, publications provide **accession numbers** which are used to looup data available online. At every accession number one can find several `SRX` files. Below is an example using one accession number from the [Leucegene data](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642). 
 
 ## Get SRX sample names 
+
+The `GEOquery` package can be used to extract `SRX` files linked to an accession number. 
 
 ```{r message=FALSE,warning=FALSE}
 library(GEOquery)
@@ -12,7 +14,7 @@ library(knitr)
 library(stringr)
 ```
 
-Below is an example using one accession number from the [Leucegene data](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49642).
+Below the accession number **GSE49642** is used as example. 
 
 ```{r eval=FALSE}
 # Get matrix files for every accession number
@@ -20,20 +22,20 @@ series_matrix_info <- function(gse){
 gsed <- getGEO(gse,GSEMatrix=TRUE)
 gse.mat <- pData(phenoData(gsed[[1]]))
 reduced <- gse.mat[,c("title","geo_accession","relation.1")]
-write.csv(reduced,file.path("../data",paste(gse,"_",nrow(gse.mat),".csv",sep="")),row.names = FALSE)
+write.csv(reduced,file.path("data",paste(gse,"_",nrow(gse.mat),".csv",sep="")),row.names = FALSE)
 }
 
 series_matrix_info("GSE49642") # 43 samples
 ```
 
 
-Every row in Table \@ref(tab:SRX) contains sample names (`title`) and `GSM` accession numbers. In order to download a particular sample we need the `SRA` terms which are the names starting with: `SRX***` in the `relation.1` column. The structure of the matrix might change across different studies but you should be able to find `SRX` entries hidden somewhere in the `GSEMatrix`!
+Every row in Table \@ref(tab:SRX) contains sample names (`title`) and `GSM` numbers. In order to download a particular sample we need the `SRA` terms which are the names starting with: `SRX***` in the `relation.1` column. The structure of the matrix might change across different studies but you should be able to find `SRX` entries hidden somewhere in the `GSEMatrix`!
 
 ```{r SRX,message=FALSE}
 matrix_file <- list.files(path = file.path("data"),pattern = "GSE",full.names = TRUE)
 GSEmatrix <- read_csv(matrix_file)
 
-kable(GSEmatrix[1:5,],caption="SRX sample names.")
+kable(GSEmatrix[1:5,],caption="SRX sample names linked to the accession number GSE49642.")
 ```
 
 With some string processing we can extract the `SRX` entries. 
