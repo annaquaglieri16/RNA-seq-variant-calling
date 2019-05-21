@@ -16,7 +16,7 @@ library(png)
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
-                      fig.path = 'figure/', 
+                      fig.path = 'figures/', 
                       fig.align = 'center', fig.show = 'hold',
                       out.width = ifelse(knitr::is_html_output(), "100%", "\\textwidth"),
   cache.path = ifelse(knitr::is_html_output(), 'cache-gitbook/', 'cache-pdfbook/'))
@@ -42,7 +42,7 @@ All the functions used for the variant calling and downsampling pipeline are ins
 Figure \@ref(fig:overview) below offers an overview of the pipeline that I applied to several of the cancer RNA-Seq samples that I worked with. However, the current book mentions other callers not displayed in the figure. 
 
 ```{r overview,eval=TRUE,fig.cap="Overview of the variant calling pipeline that I used used for several cancer RNA-Seq data."}
-img <- png::readPNG("img/general-verview.png")
+img <- png::readPNG("figures/general-verview.png")
 grid::grid.raster(img)
 ```
 
