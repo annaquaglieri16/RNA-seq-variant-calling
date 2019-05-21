@@ -37,14 +37,25 @@ All the functions used for the variant calling and downsampling pipeline are ins
 * If you already have the `FASTQ` files and you don't need to perform quality control or downsampl your files go to Section \@ref(ch:align).
 * If you already have the `BAM` files and you want to call variants go to Section \@ref(ch:gatk-prep).
 
-# Overview
+## Overview
 
 Figure \@ref(fig:overview) below offers an overview of the pipeline that I applied to several of the cancer RNA-Seq samples that I worked with. However, the current book mentions other callers not displayed in the figure. 
 
-```{r overview,eval=TRUE,fig.cap="Overview of the variant calling pipeline that I used used for several cancer RNA-Seq data."}
+```{r overview,eval=TRUE,echo=FALSE,fig.cap="Overview of the variant calling pipeline that I used used for several cancer RNA-Seq data."}
 img <- png::readPNG("figures/general-verview.png")
 grid::grid.raster(img)
 ```
+
+The sofwtare mentioned in Figure \@ref(fig:overview) are mentioned throughout the book and cited below:
+
+* `GATK` [@McKenna2010-mc]
+* `VarScan` [@Koboldt2012-wx]
+* `superFreq` [@Flensburg2018-ah]
+* `VarDict` [@Lai2016-ws]
+* `km` [@Software-km]
+* `VEP` [@McLaren2016-lv]
+* [`varikondo`](https://annaquaglieri16.github.io/varikondo/index.html) 
+
 
 ## Disclaimer
 
