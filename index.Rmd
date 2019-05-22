@@ -58,6 +58,13 @@ The sofwtare mentioned in Figure \@ref(fig:overview) are mentioned throughout th
 * `VEP` [@McLaren2016-lv]
 * [`varikondo`](https://annaquaglieri16.github.io/varikondo/index.html) 
 
+The pre-processing steps in Figure \@ref(fig:overview) are also summarised in Figure \@ref(fig:prep) and discussed in the sections below. The majority of the pre-processing steps are taken from the [`GATK best practices for RNA-Seq variant calling`](https://software.broadinstitute.org/gatk/documentation/article.php?id=3891).
+
+```{r prep,eval=TRUE,echo=FALSE,fig.cap="Bamfile pre-processing."}
+img <- png::readPNG("figures/flowchart0.png")
+grid::grid.raster(img)
+```
+
 
 ## Disclaimer
 

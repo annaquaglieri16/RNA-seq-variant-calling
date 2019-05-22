@@ -186,7 +186,7 @@ FQ1=./data/SRR1608907_1.fastq.gz
 FQ2=./data/SRR1608907_2.fastq.gz
 star_genome100=path_to_genome_directory/star_index_hg19_99
 
-Rscript ../functions/run_STAR.R \
+Rscript ./functions/run_STAR.R \
 --genome_index $star_index_hg19_99 \
 --fastqfiles $FQ1,$FQ2 \
 --sampleName SRR1608907 \
@@ -243,6 +243,14 @@ AddOrReplaceReadGroups \
 		RGPL="illumina" \
 		RGSM=SRR1608907_L1
 ```
+
+Figure \@ref(fig:read-group) is a graphic example of adding read groups to separate files. In the merged bamfile each reads will have an identification for which lane they came from and this information is used in the GATK Base Recalibration step discussed in Section \@ref(ch:gatk-prep). 
+
+```{r read-group,eval=TRUE,echo=FALSE,fig.cap="Adding read group before merging across lanes."}
+img <- png::readPNG("./figures/read-groups.png")
+grid::grid.raster(img)
+```
+
 
 After running `post_align_qc2.sh` a file with the suffix `Aligned.reorderedDupl.rg.bam` will be created where read groups are added and PCR duplicated reads marked.
 
