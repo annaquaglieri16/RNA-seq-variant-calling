@@ -1,23 +1,47 @@
-# Standardise output of variants {#ch:variants-st}
+# `varikondo` and `superFreq`: Standardise and combine variants over time {#ch:variants-st}
 
-We are now at the stage where variants are called. The scripts above helps with calling variants 
-using 4 callers (VarDict, Varscan, MuTect2, km). 
+We are now at the stage where variants are called and we have loads of `VCF` files/ exel files. The scripts in the previous sections helps with calling variants using 4 callers (VarDict, Varscan, MuTect2, km and freebayes). 
 
-At this stage, depending on how one needs to use the variants, there are several options:
+At this stage, depending on how one needs to use the variants, there are several options discussed below. To make it easier to import variant calls into R and store them in data frame I developed the R package [`varikondo`](https://annaquaglieri16.github.io/varikondo/) which hopefully will help you to find the spark joy in your variants!  
 
-## superFreq to combine time-course mutations for one patient
+Below are some applications but for a more in depth description of its functionalities see the package website https://annaquaglieri16.github.io/varikondo/articles/vignette.html. 
 
-If you have time-course data for each patient you can use software like [`superFreq`](https://github.com/ChristofferFlensburg/superFreq) to analyse mutations over time; estimate the clonality development of your cancer samples; CNVs; somatic mutations etc...
+## `parse_vcf_output`: read in your single sample VCF file in R
 
-```{r eval=FALSE, include=FALSE,echo=FALSE}
-#!/usr/bin/env Rscript
+If you simply want to read a VCF file in R you can use `parse_vcf_output` which currently support tumour-only variants from `GATK MuTect2`, `VarDict`, `VarScan` and `Freebayes`.
 
+```{r parse-mutect, message=FALSE}
+library(varikondo)
+
+annot_vcf_mutect <- system.file("extdata", "germline_mutect.vcf", package = "varikondo")
+annot_vcf_mutect
+
+parsed_vcf_mutect <- varikondo::parse_vcf_output(vcf_path = annot_vcf_mutect, 
+                                                 caller = "mutect",
+                                                 sample_name = "Sample1",
+                                                 vep = TRUE)
+knitr::kable(parsed_vcf_mutect[1:10,],caption = "Parsed MuTect2 output, from VCF to data frame.")
+```
+
+
+## `superFreq` and `varikodno::import_goi_superfreq` to combine SNVs/short insertions over time
+
+If you have data collected for the same patient over time you can use software like [`superFreq`](https://github.com/ChristofferFlensburg/superFreq) to track changing clones over the course of treatment for example. Figure \@ref(fig:overview) shows the input necessary for `superFreq` and full documentation/manuscript/examples are available on GitHub https://github.com/ChristofferFlensburg/superFreq. The chunk below is an example taken from one of the runs that I did for RNA samples, setting the `mode = RNA` option. There main input for `superFreq` are: VCF files (in my case normally from VarScan); bamfiles (including Panel Of Normal (PON) samples); and metadata information (see example in Table \@ref(tab:metadata)).
+
+
+```{r echo = FALSE,eval = FALSE}
 individual = commandArgs(TRUE)[1]
 print(commandArgs())
 print(commandArgs(TRUE))
 
 repos_install <- 'https://cloud.r-project.org'
 RlibPath <- '/stornext/HPCScratch/home/quaglieri.a/R/x86_64-pc-linux-gnu-library/3.5'
+
+```
+
+
+```{r eval=FALSE, include=FALSE,echo=FALSE}
+#!/usr/bin/env Rscript
 
 library(devtools)
 library(superFreq)
@@ -26,7 +50,7 @@ reference = 'path-to/genome.fa'
 normalDirectory = './superFreq/referenceNormals'
 metadata = './test_data/superFreq/sample-metadata.tsv'
 plots = './superFreq/plots'
-rdir = './superFreq/R_full_cohort'
+rdir = './superFreq/R'
 
 forceRedo = forceRedoNothing()
 forceRedo$forceRedoVEP = T
@@ -35,17 +59,31 @@ superFreq(metaDataFile = metadata, genome = 'hg38',captureRegions = "hg38exons.b
 
 ```
 
-
-```{r eval=FALSE,include=FALSE,echo=FALSE}
+```{r metadata,eval=TRUE,include=FALSE,echo=FALSE}
 #How the `metadata` for one patient with no matched normal samples looks like:
 
-meta <- read_delim("../data/sample-metadata.tsv",delim = "\t")
-knitr::kable(meta)
+meta <- read_delim("./data/sample-metadata.tsv",delim = "\t")
+knitr::kable(meta, caption = "Example metadata for superFreq, connecting samples to patients.")
 ```
 
 
+`superFreq` will create two main output folder specified when running the function: `plots = './superFreq/plots'` and `rdir = './superFreq/R'`.
 
-If you decide to call variants with one of the callers above independently from the `call_variants.R` function, you still have options to standardise the `VCF` output from a caller so to explore it with the `Mutexplore` app.  
-- No annotation is run -> apply function from `samplepower`
-- Annotation is run -> apply function from `samplepower`
-- Output is taken from superFreq -> functions from `lineplots`
+You can then use `varikondo::import_goi_superfreq` to variants found on genes of interest into R!
+
+```{r eval=FALSE}
+import_sf <- varikondo::import_goi_superfreq(superFreq_R_path = superFreq_R_path,
+                                 superFreq_meta_path = superFreq_meta_path,
+                                 studyGenes,
+                                 patientID = "D1",
+                                 ref_genome = "hg38",
+                                 VAFcut = 0.15)
+```
+
+
+## `import_any`: combine variants over time for any caller
+
+In the pipeline (Figure \@ref(fig:overview)) that I applied to the RNA-Seq cohorts that I was involved with, I cann INDELs with `VarDict` and `km` for every single sample independently and then filter and curate the results. `superFreq` only supports point mutations and short INDELs which is why I won't use for more complex INDELs reported in VCF files by `VarDict`. My strategy to combine and filter variants within the same patient is to filter them simultaneusly and to retain only those variants which passes specific threshold at one time points. The rational being here that if a variant is too low to be independently detected at one time point it might still be kept if it is present at a good level at a different time. 
+
+To accomplish this, I use the `varikondo::import_any` function which takes in input a data frame, as created by `import_vcf_output` and filter variants by patient. Here is [an example](https://example-varikondo.netlify.com/) on how to jointly use `import_vcf_output` and `import_any` to obtain a final filtered and combine version of VarDict calls for one patients with samples over time. 
+
