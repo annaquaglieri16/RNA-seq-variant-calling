@@ -1,46 +1,57 @@
 # Variant calling {#ch:call-variants}
 
-You can perform variant calling on the whole genome or to a specific regions that you can specify with a `.bed` file.
-Here we show how to call variants on specific regions of interest. The target regions were created using the gene symbols of the mutations listed in **Supplemental Table 3** of [@Lavallee2016-sf] and listed in `../data/mutations_Lavallee_2016.csv`. We used the hg19 inbuilt annotation of `Rsubread` to obtain the gene ranges and added 500 bp at the end and at the beginning of each gene. The final `bed` files is `../data/target_regions.bed`.
+You can perform variant calling on the whole genome or on specific regions that you can specify with a `.bed` file.
+Here we show how to call variants on specific regions of interest. The target regions were created using the gene symbols of the mutations listed in **Supplemental Table 3** of [@Lavallee2016-sf] and listed in `./data/mutations_Lavallee_2016.csv`. We used the hg19 inbuilt annotation of `Rsubread` to obtain the gene ranges and added 500 bp at the end and at the beginning of each gene. The final `bed` files is `./data/target_regions.bed`.
 
-View all the options in the `../functions/call_variants.R` function.
+View all the options in the `./functions/call_variants.R` function.
 
 ```{bash eval=FALSE}
-Rscript ../functions/call_variants.R --help
+Rscript ./functions/call_variants.R --help
 ```
 
-Below is an example to run `VarDict` and `MuTect2` in tumour-only mode. The directory needed for VarDict can be downloaded from the software GitHub page https://github.com/AstraZeneca-NGS/VarDict. 
 
+
+Below is an example on how to call variants with `VarDict` and `VarScan` in tumour-only mode and annotate them with the [Variant Effect Preditor (VEP)](https://asia.ensembl.org/info/docs/tools/vep/index.html). The directory needed for VarDict can be downloaded from the software GitHub page https://github.com/AstraZeneca-NGS/VarDict. 
+
+For other caller options:
+
+
+```
+
+-c CHARACTER, --variant_caller=CHARACTER
+                Variant caller to be used. Possible values are 'mutect', 'varscan', 'freebayes' and 'vardict'. Samtools mpileup is used to create VarScan input.
+                
+```
 
 ```{bash echo=FALSE,eval=FALSE}
 # Vardict tumour-only call
-Rscript ../functions/call_variants.R \
+Rscript ./functions/call_variants.R \
 --reference_fasta path_hg19_reference/genome.fa \
---bamfile ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam \
+--bamfile ./results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam \
 --sampleName SRR1608907 \
---regions ../data/target_regions.bed \
+--regions ./data/target_regions.bed \
 --genome_assembly 'GRCh37' \
 --VarDict_dir /home/software/VarDict \
 --caller vardict \
 --outputdir_suffix "defaults" \
 --VEPcall 'vep --dir_cache path_to_vep_cache/.vep --offline' \
---output_directory ../results/
+--output_directory ./results/
  
-# Mutect2 tumour-only call 
+# VarScan tumour-only call 
  
-Rscript ../functions/call_variants.R \
+Rscript ./functions/call_variants.R \
 --reference_fasta path_to_genome.fa \
---bamfile ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
+--bamfile ./results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
 --sampleName SRR1608907 \
---regions ../data/target_regions.bed \
+--regions ./data/target_regions.bed \
 --genome_assembly 'GRCh37' \
---caller mutect \
+--caller varscan \
 --outputdir_suffix "defaults" \
 --VEPcall 'vep --dir_cache path_to_vep_cache/.vep --offline' \
---output_directory ../results/
+--output_directory ./results/
 ```
 
-The function above wraps up calls for the callers included in the pipeline. Below are details about the actual caller settings that I normally use to call variants with these callers..
+The function above is a wrapper for the calls done by each caller. Below are details of the actual caller settings that I normally use to call variants with these callers.
 
 ## Call with MuTect2
 
@@ -48,10 +59,10 @@ The function above wraps up calls for the callers included in the pipeline. Belo
 module load gatk/3.7.0
 
 gatk -T MuTect2 -R path_to_genome.fa \
--I:tumor ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
--L ../data/target_regions.bed \
--o ../results/mutect/regions/SampleName_germline_snvs_indels.vcf \
--log ../results/mutect/regions/SampleName_germline_snvs_indels_log
+-I:tumor ./results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam \
+-L ./data/target_regions.bed \
+-o ./results/mutect/regions/SampleName_germline_snvs_indels.vcf \
+-log ./results/mutect/regions/SampleName_germline_snvs_indels_log
 ```
 
 ## Call with Samtools + VarScan2
@@ -61,8 +72,8 @@ module load varscan/2.3.9
 module load samtools/1.6
 
 samtools mpileup --output-tags AD,ADF,ADR,DP,SP \
---fasta-ref -R path_to_genome.fa \
--l ../data/target_regions.bed ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam | varscan mpileup2cns --variants 1 --output-vcf 1 --min-var-freq 0.01 > ../results/varscan/regions/SampleName_germline_snvs_indels.vcf 2> ../results/varscan/regions/SampleName_germline_snvs_indels_log
+--fasta-ref path_to_genome.fa \
+-l ./data/target_regions.bed ./results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.split.recalibrated.bam | varscan mpileup2cns --variants 1 --output-vcf 1 --min-var-freq 0.01 > ./results/varscan/regions/SampleName_germline_snvs_indels.vcf 2> ./results/varscan/regions/SampleName_germline_snvs_indels_log
 ```
 
 ## Call with VarDict
@@ -72,25 +83,34 @@ The `teststrandbias.R` and `var2vcf_valid.pl` scripts were downloaded from https
 ```{bash eval=FALSE}
 module load vardict/1.5.1
 
-vardict -c 1 -S 2 -E 3 -g 4 -r 2 -t -th 10 -v -G \
--R path_to_genome.fa \
--b ../results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam ../data/target_regions.bed  | vardict_dir/teststrandbias.R | vardict_dir/var2vcf_valid.pl -N -E -f 0.05 >  ../results/vardict/regions/SampleName_germline_snvs_indels.vcf
+vardict -f 0.05 -c 1 -S 2 -E 3 -g 4 -r 2 -t -th 10 -v -G  path_to_genome.fa \
+-b ./results/star_2pass/SRR1608907_Aligned.reorderedDupl.rg.bam ./data/target_regions.bed  | vardict_dir/teststrandbias.R | vardict_dir/var2vcf_valid.pl -N -E -f 0.05 >  ./results/vardict/regions/SampleName_germline_snvs_indels.vcf
 ```
 
 ## Annotate variants
 
-Below is an example using the output from VarScan but the same call is used for Mutect2 and VarDict vcf files.
+This step is performed within the `call_variants.R` function when the path to the VEP cache library is provided.
+
+```
+--VEPcall 'vep --dir_cache path_to_vep_cache/.vep --offline' \
+```
 
 ```{bash eval=FALSE}
 module load ensembl-vep/89.0
 
 vep --dir_cache dir_to_VEP_cache/.vep --offline \
--i ../results/varscan/regions/SampleName_germline_snvs_indels.vcf \
--o ../results/varscan/regions/annotated_variants/SampleName_germline_annotated.vcf \
+-i ./results/varscan/regions/SampleName_germline_snvs_indels.vcf \
+-o ./results/varscan/regions/annotated_variants/SampleName_germline_annotated.vcf \
 --cache --everything --force_overwrite --assembly GRCh37 --fork 12 --vcf --port 3337
 ```
 
 ## Targeted INDEL calling with `km` algorithm {#indels-km}
 
 The [`km` algorithm](https://github.com/iric-soft/km) [@Software-km] is one of the sofware developed for targeted INDEL calls in RNA-Seq. Calling INDELs from RNA-Seq is challenging and several tools have been published between 2017-2019 to accomplish this task. The `km` algorithm was benchmarked on the AML Leucegene and TCGA-LAML datasets.   
+
+As shown in Figure \@ref(fig:overview) I used it together with VarDict to create a set of INDELs calls from leukemia RNA-Seq. In my approach, I call variants with both callers and curate their ouput by checking INDELs that are called by both callers (only one calls is preserved) or by only one call. In my experience, their calls are pretty similar and I was able to call FLT3 Internal Tandem Duplications on my samples using both callers. 
+
+
+
+
 

@@ -69,3 +69,7 @@ gatk -T PrintReads -R path_hg19_reference/genome.fa \
 -nct 8 -BQSR ./results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_post_recal_data.table \
 --log_to_file ./results/star_2pass/BaseQRecal/SRR1608907/SRR1608907_Log_recalibrated_bases
 ```
+
+## Summary with MultiQC
+
+MultiQC also support output from GATK https://multiqc.info/docs/#gatk and you can easily create a report for the summary/log files created above. 
