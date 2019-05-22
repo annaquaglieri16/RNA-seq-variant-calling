@@ -124,7 +124,9 @@ To see all the arguments available:
 Rscript ./functions/run_STAR.R --help
 ```
 
-````
+
+```
+
 Options:
         --genome_index=GENOME_INDEX
                 Path to the folder with the reference genome index.
