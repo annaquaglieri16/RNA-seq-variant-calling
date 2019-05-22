@@ -232,7 +232,7 @@ In order, `post_align_qc2.sh` arguments are:
   
   1. Path to **aligned bamfile**;
   2. `SampleName`. This is the name of the sample applied to the `RGID` and `RGPU` fields below.
-  4. `SampleName of the run`. If a sample was sequenced across different lanes you need to set lane-specific read groups to each separate bamfile (e.g. SampleName_L1, SampleName_L2). This sample name will be used for the fields `RGLB` and `RGSM` in the `AddOrReplaceReadGroups` groups below. See Section \@(sec:merge-bamfiles) for merging bamfiles.
+  4. `SampleName of the run`. If a sample was sequenced across different lanes you need to set lane-specific read groups to each separate bamfile (e.g. SampleName_L1, SampleName_L2). This sample name will be used for the fields `RGLB` and `RGSM` in the `AddOrReplaceReadGroups` groups below. See Section \@ref(sec:merge-bamfiles) for merging bamfiles.
 
 ```{bash eval=FALSE}
 # Picard tool function to add read groups to a bamfile
@@ -308,10 +308,10 @@ multiqc ./results/star_2pass --interactive -n "STAR_2passQC" -o ../results
 
 ## Merge bamfiles {#sec:merge-bamfiles}
 
-In some cases the sequenced reads from one sample can be sequenced across different lanes and the aligned bamfiles need to be merged. `sambamba merge` can be used for this. I created a wrapper function for it even though it assumes that the files from the same sample have a common *SampleName*. The function will merge together all bamfiles containing *SampleName*.
+In some cases the sequenced reads from one sample can be sequenced across different lanes and the aligned bamfiles need to be merged. `sambamba merge` can be used for this. I created a wrapper function for it even though it assumes that the files from the same sample have a common *SampleName*. The function will merge together all bamfiles containing *SampleName* found in the `./star_2pass` directory.
 
 
 ```{bash eval=FALSE}
-../functions/merge_runs.sh SampleName ./star_2pass
+./functions/merge_runs.sh SampleName ./star_2pass
 ```
 
