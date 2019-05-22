@@ -1,9 +1,0 @@
-# Merge bamfiles {#ch:merge-bamfiles}
-
-In some cases the sequenced reads from one sample can be sequenced across different lanes and the aligned bamfiles need to be merged. `sambamba merge` can be used for this. I created a wrapper function for it even though it assumes that the files from the same sample have a common *SampleName*. The function will merge together all bamfiles containing *SampleName*.
-
-
-```{bash eval=FALSE}
-../functions/merge_runs.sh SampleName ./star_2pass
-```
-
