@@ -13,7 +13,7 @@ If you simply want to read a VCF file in R you can use `parse_vcf_output` which 
 ```{r parse-mutect, message=FALSE}
 library(varikondo)
 
-annot_vcf_mutect <- system.file("extdata", "germline_mutect.vcf", package = "varikondo")
+annot_vcf_mutect <- system.file("extdata", "chr20_mutect.vcf.gz", package = "varikondo")
 annot_vcf_mutect
 
 parsed_vcf_mutect <- varikondo::parse_vcf_output(vcf_path = annot_vcf_mutect, 
