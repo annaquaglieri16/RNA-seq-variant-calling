@@ -107,7 +107,7 @@ repos_install <- opt$Rrepos
 # biocLite("Rsamtools")
 require(Rsamtools)
 
-list.of.packages <- c("parallel")
+list.of.packages <- c("parallel","R.utils")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages,repos = repos_install, lib = opt$RlibPath)
 
